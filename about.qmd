@@ -1,5 +1,0 @@
----
-title: "About"
----
-
-This site documents my ML projects

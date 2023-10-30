@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2023-10-30">
+<meta name="description" content="ROC, PR, Confusion Matrix">
 
-<title>Yoseph’s ML Blog</title>
+<title>Yoseph’s ML Blog - Classification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +25,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -61,40 +61,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -104,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Yoseph’s ML Blog</span>
     </a>
   </div>
@@ -115,11 +84,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../index.html" rel="" target="">
  <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./CS5805.html" rel="" target="">
+    <a class="nav-link" href="../CS5805.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -135,20 +104,37 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="Classification">Classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Clustering">Clustering <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Confusion Matrix">Confusion Matrix <span class="quarto-category-count">(1)</span></div><div class="category" data-category="DBScan">DBScan <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Histogram">Histogram <span class="quarto-category-count">(1)</span></div><div class="category" data-category="PCA">PCA <span class="quarto-category-count">(1)</span></div><div class="category" data-category="PR">PR <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Probability theory">Probability theory <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ROC">ROC <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="random variables">random variables <span class="quarto-category-count">(1)</span></div></div></div>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Yoseph’s ML Blog</h1>
-</div>
+<h1 class="title">Classification</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">ROC</div>
+    <div class="quarto-category">PR</div>
+    <div class="quarto-category">Confusion Matrix</div>
+    <div class="quarto-category">Classification</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    ROC, PR, Confusion Matrix
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 30, 2023</p>
+    </div>
+  </div>
   
     
   </div>
@@ -156,178 +142,14 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>Banner Image Credit: <a href="https://www.flickr.com/photos/91261194@N06/">Jernej Furman</a></p>
+<p>Adipisicing sunt nisi nulla pariatur ex ipsum mollit. Dolor commodo cillum sint amet commodo. Nulla culpa aliqua enim ad anim. Aliquip ex duis minim laborum enim aliquip ad aliqua. Sit consectetur excepteur ea aliqua exercitation Lorem ex elit incididunt consequat ea. Excepteur qui velit commodo non cillum enim duis occaecat laborum tempor sint do anim. In nostrud ex aliqua commodo sunt quis velit. Enim laborum officia officia nostrud sunt velit dolore Lorem occaecat ipsum.</p>
+<p>Pariatur mollit in eiusmod irure velit veniam aliquip tempor culpa minim. Nulla proident eiusmod ipsum aute eiusmod aliqua. Amet cupidatat adipisicing nostrud exercitation amet anim aliqua sint mollit in dolor culpa. Adipisicing nostrud culpa excepteur ullamco. Eiusmod eu laboris excepteur sint eu excepteur et. Ullamco eu cupidatat consectetur fugiat minim fugiat sunt ut minim. Pariatur dolor exercitation sunt ipsum Lorem velit sit Lorem laboris Lorem.</p>
+<p>Qui Lorem fugiat do commodo exercitation anim commodo incididunt sint aute deserunt nulla. Ex incididunt do ut ullamco exercitation in laborum cupidatat. Dolor laboris cupidatat anim sint. Culpa elit voluptate officia ex elit ullamco fugiat pariatur mollit labore eiusmod id anim.</p>
 
 
 
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1698687569867" data-listing-reading-time-sort="7">
-<a href="./posts/post5.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Setup
-</h5>
-<div class="card-text listing-description">
-<strong>Chapter 1 – The Machine Learning landscape</strong>
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="Regression" data-listing-date-sort="1699246800000" data-listing-file-modified-sort="1698687628556" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-<a href="./posts/regression.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./assets/preview.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Linear and nonlinear regression
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
-Regression
-</div>
-</div>
-<div class="card-text listing-description">
-line on scatter plot
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Nov 6, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="DBScan,Clustering" data-listing-date-sort="1698687652000" data-listing-file-modified-sort="1698687622599" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-<a href="./posts/clustering.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./assets/clustering.jpeg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Clustering
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('DBScan'); return false;">
-DBScan
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Clustering'); return false;">
-Clustering
-</div>
-</div>
-<div class="card-text listing-description">
-DBSCAN labels for scatter plot
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Oct 30, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="ROC,PR,Confusion Matrix,Classification" data-listing-date-sort="1698687652000" data-listing-file-modified-sort="1698687624661" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-<a href="./posts/classification.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./assets/classification.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Classification
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ROC'); return false;">
-ROC
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('PR'); return false;">
-PR
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Confusion Matrix'); return false;">
-Confusion Matrix
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Classification'); return false;">
-Classification
-</div>
-</div>
-<div class="card-text listing-description">
-ROC, PR, Confusion Matrix
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Oct 30, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-categories="Histogram,Probability theory,random variables,PCA" data-listing-date-sort="1698687652000" data-listing-file-modified-sort="1698687620914" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-<a href="./posts/pca.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./assets/pca.jpeg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Principal Component Analysis
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Histogram'); return false;">
-Histogram
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Probability theory'); return false;">
-Probability theory
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('random variables'); return false;">
-random variables
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('PCA'); return false;">
-PCA
-</div>
-</div>
-<div class="card-text listing-description">
-What’s PCA, when and how to use it in Machine Learnging
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Oct 30, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

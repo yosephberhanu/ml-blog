@@ -1,0 +1,21 @@
+---
+title: "Principal Component Analysis"
+description: "What's PCA, when and how to use it in Machine Learnging"
+# author:
+#   - name: Yoseph Berhanu
+#     url: https://yosephberhanu.github.io/
+#     orcid: 0000-0002-2922-4337
+#     affiliation: PhD student at Virginia Tech
+#     affiliation-url: https://code-world-no-blanket.github.io/
+date: now
+categories: [Histogram,Probability theory,random variables, PCA] # self-defined categories
+# citation: 
+#   url: https://yosephberhanu.github.io/ml-blog/posts/pca.html
+image: ../assets/pca.jpeg
+draft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+Banner Image Credit: [Jernej Furman](https://www.flickr.com/photos/91261194@N06/)
+
+Principal component analysis (PCA) is a popular technique for analyzing large datasets containing a high number of dimensions/features per observation, increasing the interpretability of data while preserving the maximum amount of information, and enabling the visualization of multidimensional data. 
+
+Formally, PCA is a statistical technique for reducing the dimensionality of a dataset. This is accomplished by linearly transforming the data into a new coordinate system where (most of) the variation in the data can be described with fewer dimensions than the initial data. Many studies use the first two principal components in order to plot the data in two dimensions and to visually identify clusters of closely related data points. Principal component analysis has applications in many fields such as population genetics, microbiome studies, and atmospheric science.

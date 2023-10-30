@@ -4,5 +4,38 @@
   },
   "about.qmd": {
     "about.html": "ccec6edf"
+  },
+  "01_the_machine_learning_landscape.ipynb": {
+    "01_the_machine_learning_landscape.html": "6debbdb3"
+  },
+  "posts/post1.qmd": {
+    "post1.html": "d95c5eef"
+  },
+  "posts/post2.qmd": {
+    "post2.html": "265cd61b"
+  },
+  "posts/post4.qmd": {
+    "post4.html": "7ff7c79c"
+  },
+  "posts/post5.ipynb": {
+    "post5.html": "4d462bdb"
+  },
+  "posts/post3.qmd": {
+    "post3.html": "a3965ff6"
+  },
+  "posts/pca.qmd": {
+    "pca.html": "f61715dd"
+  },
+  "posts/classification.qmd": {
+    "classification.html": "dae93908"
+  },
+  "posts/clustering.qmd": {
+    "clustering.html": "0ba3db05"
+  },
+  "posts/regression.qmd": {
+    "regression.html": "755bb834"
+  },
+  "CS5805.qmd": {
+    "CS5805.html": "63f23e98"
   }
 }
