@@ -226,49 +226,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="preparation">1. Preparation</h2>
 <section id="install-required-packages" class="level3">
 <h3 class="anchored" data-anchor-id="install-required-packages">1.1 Install required packages</h3>
-<div class="cell" data-execution_count="1">
-<div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: numpy in /Users/yoseph/anaconda3/lib/python3.11/site-packages (1.24.3)
-Collecting sklearn
-  Using cached sklearn-0.0.post12.tar.gz (2.6 kB)
-  Preparing metadata (setup.py) ... - error
-  error: subprocess-exited-with-error
-  
-  × python setup.py egg_info did not run successfully.
-  │ exit code: 1
-  ╰─&gt; [15 lines of output]
-      The 'sklearn' PyPI package is deprecated, use 'scikit-learn'
-      rather than 'sklearn' for pip commands.
-      
-      Here is how to fix this error in the main use cases:
-      - use 'pip install scikit-learn' rather than 'pip install sklearn'
-      - replace 'sklearn' by 'scikit-learn' in your pip requirements files
-        (requirements.txt, setup.py, setup.cfg, Pipfile, etc ...)
-      - if the 'sklearn' package is used by one of your dependencies,
-        it would be great if you take some time to track which package uses
-        'sklearn' instead of 'scikit-learn' and report it to their issue tracker
-      - as a last resort, set the environment variable
-        SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True to avoid this error
-      
-      More information is available at
-      https://github.com/scikit-learn/sklearn-pypi-package
-      [end of output]
-  
-  note: This error originates from a subprocess, and is likely not a problem with pip.
-error: metadata-generation-failed
-
-× Encountered error while generating package metadata.
-╰─&gt; See above for output.
-
-note: This is an issue with the package mentioned above, not pip.
-hint: See above for details.
-Note: you may need to restart the kernel to use updated packages.</code></pre>
-</div>
-</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install numpy sklearn pandas matplotlib seaborn</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="perform-the-necessary-imports" class="level3">
 <h3 class="anchored" data-anchor-id="perform-the-necessary-imports">1.2 Perform the necessary imports</h3>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -311,7 +275,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Suppress Warnings</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>warnings.simplefilter(action<span class="op">=</span><span class="st">'ignore'</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -332,7 +296,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </section>
 <section id="load-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="load-the-data">2.2 Load the data</h3>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../data/MP2_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -341,9 +305,9 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <h2 class="anchored" data-anchor-id="try-to-learn-some-information-about-the-data">2.3 Try to learn some information about the data</h2>
 <section id="display-the-first-and-last-5-rows" class="level3">
 <h3 class="anchored" data-anchor-id="display-the-first-and-last-5-rows">Display the first and last 5 rows</h3>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -502,9 +466,9 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -666,7 +630,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </section>
 <section id="display-details-about-each-attribute" class="level3">
 <h3 class="anchored" data-anchor-id="display-details-about-each-attribute">Display details about each attribute</h3>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -729,10 +693,10 @@ memory usage: 40.3+ KB</code></pre>
 </section>
 <section id="set-id-as-the-index-column" class="level3">
 <h3 class="anchored" data-anchor-id="set-id-as-the-index-column">Set ‘ID’ as the index column</h3>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.set_index(<span class="st">'ID'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -916,9 +880,9 @@ memory usage: 40.3+ KB</code></pre>
 </div>
 </div>
 <p>Get additional information about each column</p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df.describe().T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -1461,11 +1425,11 @@ memory usage: 40.3+ KB</code></pre>
 </div>
 </div>
 <p>From the description (in the pdf file) Week8_total seems to be a sum of the 9 grades, to check, I create a temporary column called sum and compare</p>
-<div class="cell" data-execution_count="10">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>grade_cols <span class="op">=</span> [<span class="st">'Week2_Quiz1'</span>,<span class="st">'Week4_Quiz2'</span>,<span class="st">'Week6_Quiz3'</span>,<span class="st">'Week3_MP1'</span>,<span class="st">'Week5_MP2'</span>,<span class="st">'Week7_MP3'</span>,<span class="st">'Week3_PR1'</span>,<span class="st">'Week5_PR2'</span>,<span class="st">'Week7_PR3'</span>]</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'sum'</span>] <span class="op">=</span> df[grade_cols].<span class="bu">sum</span>(<span class="dv">1</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'sum'</span>, <span class="st">'Week8_Total'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -1546,7 +1510,7 @@ memory usage: 40.3+ KB</code></pre>
 </div>
 </div>
 <p>These columns are the same representing the same data, hence, I can drop the individual values and keep to total. Also, since I do not plan to perform any time serious analysis (i.e., I’m not interested in the changes over weeks on the grades) I can keep the Week8_Total and drop the individual grade to reduce the features I need to consider. P.S: I also drop the temporary ‘sum’ colum</p>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>grade_cols.append(<span class="st">'sum'</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(grade_cols)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>df.drop(columns<span class="op">=</span>grade_cols)</span>
@@ -1554,7 +1518,7 @@ memory usage: 40.3+ KB</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>['Week2_Quiz1', 'Week4_Quiz2', 'Week6_Quiz3', 'Week3_MP1', 'Week5_MP2', 'Week7_MP3', 'Week3_PR1', 'Week5_PR2', 'Week7_PR3', 'sum']</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
@@ -2000,29 +1964,29 @@ memory usage: 40.3+ KB</code></pre>
 </section>
 <section id="plot-the-number-of-students-who-scored-each-grade" class="level3">
 <h3 class="anchored" data-anchor-id="plot-the-number-of-students-who-scored-each-grade">Plot the number of students who scored each grade</h3>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(df, x<span class="op">=</span><span class="st">"Grade"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>&lt;Axes: xlabel='Grade', ylabel='count'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="student-grade-prediction_files/figure-html/cell-13-output-2.png" width="585" height="432"></p>
+<p><img src="student-grade-prediction_files/figure-html/cell-12-output-2.png" width="585" height="432"></p>
 </div>
 </div>
 </section>
 <section id="see-if-there-are-missng-values" class="level3">
 <h3 class="anchored" data-anchor-id="see-if-there-are-missng-values">See if there are missng values</h3>
-<div class="cell" data-execution_count="13">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sns.heatmap(df.isnull())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>&lt;Axes: ylabel='ID'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="student-grade-prediction_files/figure-html/cell-14-output-2.png" width="654" height="490"></p>
+<p><img src="student-grade-prediction_files/figure-html/cell-13-output-2.png" width="654" height="490"></p>
 </div>
 </div>
 <p>There are no missing values for any of the students, perhaps missing a quiz or an assignment has been equated to a grade of zero</p>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cor <span class="op">=</span> df.corr()</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cor)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2030,32 +1994,32 @@ memory usage: 40.3+ KB</code></pre>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting highly correlated features</span></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>relevant_features <span class="op">=</span> cor_target[cor_target<span class="op">&gt;</span><span class="fl">0.7</span>]</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>relevant_features</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>Week8_Total    0.972348
 Week6_Stat1    0.771988
 Grade          1.000000
 Name: Grade, dtype: float64</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="student-grade-prediction_files/figure-html/cell-15-output-2.png" width="608" height="490"></p>
+<p><img src="student-grade-prediction_files/figure-html/cell-14-output-2.png" width="608" height="490"></p>
 </div>
 </div>
 <p>We see, as expected, <strong>Week8_total</strong> is a highly correlated to final <strong>Grade</strong>. Interestingly <strong>Week6_Stat1</strong> seems to have a high correlation to <strong>Grade</strong>. This means, students who had high activity during the sixth week of the course had scored better on the final grade (I say they scored better because we can see below the correlation is positive ) ## 2.4 Preprocessing</p>
-<div class="cell" data-execution_count="15">
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cor[<span class="st">"Week6_Stat1"</span>][<span class="st">"Grade"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>0.7719882914970566</code></pre>
 </div>
 </div>
 <p>I can remove the Week8_Total grade from the features list if I can be sure that the final grade is full based on the this total grade or I can keep it in case other factors were considered in the final grade calculation. In this case the machine learning model I build will be highly dependent on this variable to the point the other features will became irrelevant given the high correlation value observed between this feature and the target (i.e., Grade)</p>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#df = df.drop(columns=['Week8_Total'], axis=1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#irrelevant_features = cor_target[(cor_target&gt;=0.4) &amp; (cor_target&lt;=0.5)]</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>irrelevant_features <span class="op">=</span> cor_target[(cor_target<span class="op">&gt;=</span><span class="fl">0.45</span>) <span class="op">&amp;</span> (cor_target<span class="op">&lt;=</span><span class="fl">0.55</span>)]</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>irrelevant_features</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>Week5_Stat1    0.484030
 Week8_Stat0    0.450807
 Week9_Stat0    0.545532
@@ -2063,23 +2027,23 @@ Week9_Stat1    0.496753
 Name: Grade, dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="18">
+<div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#df = df.drop(columns=list(irrelevant_features.index), axis=1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="split-features-and-target-column" class="level2">
 <h2 class="anchored" data-anchor-id="split-features-and-target-column">Split Features and target column</h2>
-<div class="cell" data-execution_count="19">
+<div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'Grade'</span>], axis<span class="op">=</span><span class="dv">1</span>).to_numpy()</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'Grade'</span>].to_numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="normalize-the-features-to-bring-them-all-to-0-1-range" class="level3">
 <h3 class="anchored" data-anchor-id="normalize-the-features-to-bring-them-all-to-0-1-range">Normalize the features to bring them all to 0-1 range</h3>
-<div class="cell" data-execution_count="20">
+<div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x_normalized <span class="op">=</span> preprocessing.normalize(x)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>x_normalized</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>array([[0.72952054, 0.        , 0.        , ..., 0.05275549, 0.00879258,
         0.        ],
        [0.3833634 , 0.0372062 , 0.        , ..., 0.01395233, 0.00930155,
@@ -2098,10 +2062,10 @@ Name: Grade, dtype: float64</code></pre>
 </section>
 <section id="split-training-and-test-data" class="level3">
 <h3 class="anchored" data-anchor-id="split-training-and-test-data">Split training and Test data</h3>
-<div class="cell" data-execution_count="21">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x_train, x_test, y_train, y_test <span class="op">=</span> train_test_split(x_normalized,y, test_size<span class="op">=</span><span class="fl">.20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="22">
+<div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training X Shape: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(x_train.shape))</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training Y Shape: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(y_train.shape))</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test X Shape: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(x_test.shape))</span>
@@ -2138,7 +2102,7 @@ Test y Shape: (22,)</code></pre>
 <section id="training" class="level2">
 <h2 class="anchored" data-anchor-id="training">3. Training</h2>
 <p>The problem of predicting one of the six grades given a set of features is a classification problem. I’ll first try to train and test multiple classifiers with their default hyperparameter values.</p>
-<div class="cell" data-execution_count="23">
+<div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'LogisticRegression'</span>:LogisticRegression(),</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MultinomialNB'</span>: MultinomialNB(),</span>
@@ -2157,10 +2121,10 @@ Test y Shape: (22,)</code></pre>
 <span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"QuadraticDiscriminantAnalysis"</span>:QuadraticDiscriminantAnalysis(),</span>
 <span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="24">
+<div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>performance <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"Train Accuracy"</span>,<span class="st">"Test Accuracy"</span>], index<span class="op">=</span><span class="bu">list</span>(models.keys()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="25">
+<div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, model <span class="kw">in</span> models.items():</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Train the model</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    model.fit(x_train, y_train)</span>
@@ -2179,9 +2143,9 @@ Test y Shape: (22,)</code></pre>
 </section>
 <section id="evaluation" class="level2">
 <h2 class="anchored" data-anchor-id="evaluation">4. Evaluation</h2>
-<div class="cell" data-execution_count="26">
+<div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>performance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="25">
 <div>
 
 
@@ -2196,72 +2160,72 @@ Test y Shape: (22,)</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LogisticRegression</td>
-<td>0.705882</td>
-<td>0.636364</td>
+<td>0.670588</td>
+<td>0.681818</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">MultinomialNB</td>
 <td>0.611765</td>
-<td>0.772727</td>
+<td>0.590909</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">BaggingClassifier</td>
-<td>0.976471</td>
+<td>1.0</td>
 <td>0.636364</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">DecisionTreeClassifier</td>
 <td>1.0</td>
-<td>0.636364</td>
+<td>0.727273</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LinearSVC</td>
-<td>0.764706</td>
-<td>0.590909</td>
+<td>0.717647</td>
+<td>0.727273</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">SGDClassifier</td>
-<td>0.717647</td>
-<td>0.636364</td>
+<td>0.658824</td>
+<td>0.590909</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">KNeighborsClassifier</td>
-<td>0.647059</td>
-<td>0.636364</td>
+<td>0.682353</td>
+<td>0.681818</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">RandomForestClassifier</td>
 <td>1.0</td>
-<td>0.590909</td>
+<td>0.681818</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">GradientBoostingClassifier</td>
 <td>1.0</td>
-<td>0.772727</td>
+<td>0.727273</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">SVC</td>
-<td>0.682353</td>
+<td>0.647059</td>
 <td>0.681818</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">GaussianProcessClassifier</td>
-<td>0.682353</td>
+<td>0.658824</td>
 <td>0.681818</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">MLPClassifier</td>
-<td>0.776471</td>
-<td>0.636364</td>
+<td>0.741176</td>
+<td>0.681818</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">AdaBoostClassifier</td>
-<td>0.647059</td>
-<td>0.772727</td>
+<td>0.670588</td>
+<td>0.681818</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">GaussianNB</td>
-<td>0.752941</td>
+<td>0.717647</td>
 <td>0.5</td>
 </tr>
 <tr class="odd">
@@ -2279,12 +2243,12 @@ Test y Shape: (22,)</code></pre>
 <section id="optimization" class="level2">
 <h2 class="anchored" data-anchor-id="optimization">5. Optimization</h2>
 <p>From ourt trial run above SGDClassifier,LinearSVC and MLPClassifier seem to have the best accuracy score. Here I’ll try to optimize these algorithms with different hyperparameter values to improve accuracy. We do this with the GirdSearch algorithm for hyperparameter tuning.</p>
-<div class="cell" data-execution_count="27">
+<div class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="sgdclassifier" class="level3">
 <h3 class="anchored" data-anchor-id="sgdclassifier">SGDClassifier</h3>
-<div class="cell" data-execution_count="28">
+<div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span>  SGDClassifier()</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> {</span>
@@ -2299,13 +2263,13 @@ Test y Shape: (22,)</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>SGDClassifier  best estimator 
  alpha = 0.01 
- accuracy_score = 0.6363636363636364</code></pre>
+ accuracy_score = 0.7272727272727273</code></pre>
 </div>
 </div>
 </section>
 <section id="linearsvc" class="level3">
 <h3 class="anchored" data-anchor-id="linearsvc">LinearSVC</h3>
-<div class="cell" data-execution_count="29">
+<div class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearSVC ()</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> {<span class="st">'C'</span>:[<span class="fl">0.0001</span>,<span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>]}</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>gridSearch <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>model, param_grid<span class="op">=</span>grid, n_jobs<span class="op">=-</span><span class="dv">1</span>, scoring<span class="op">=</span><span class="st">"accuracy"</span>)</span>
@@ -2317,13 +2281,13 @@ Test y Shape: (22,)</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>LinearSVC best estimator 
  C = 0.1 
- accuracy_score = 0.6818181818181818</code></pre>
+ accuracy_score = 0.6363636363636364</code></pre>
 </div>
 </div>
 </section>
 <section id="mlpclassifier" class="level3">
 <h3 class="anchored" data-anchor-id="mlpclassifier">MLPClassifier</h3>
-<div class="cell" data-execution_count="30">
+<div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> MLPClassifier()</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>grid<span class="op">=</span>{</span>
@@ -2343,8 +2307,8 @@ Test y Shape: (22,)</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>MLPClassifier best estimator
  alpha = 1 
- learning_rate = invscaling
- accuracy_score = 0.8181818181818182</code></pre>
+ learning_rate = constant
+ accuracy_score = 0.6363636363636364</code></pre>
 </div>
 </div>
 <p>The Best performance is obtained by LinearSVC classifier which is 82%</p>
