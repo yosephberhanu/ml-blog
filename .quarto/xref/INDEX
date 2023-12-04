@@ -40,5 +40,8 @@
   },
   "posts/seaborn_demo.ipynb": {
     "seaborn_demo.html": "04965df3"
+  },
+  "posts/Anomaly Detection.qmd": {
+    "Anomaly Detection.html": "adda94ff"
   }
 }
