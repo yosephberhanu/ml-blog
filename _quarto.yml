@@ -3,6 +3,8 @@ project:
   output-dir: docs
 website:
   title: "Yoseph's ML Blog"
+  repo-url: 'https://github.com/yosephberhanu/ml-blog'
+  repo-actions: [source]
   navbar:
     left:
       - href: index.qmd

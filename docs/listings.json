@@ -2,11 +2,11 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/post5.html",
-      "/posts/regression.html",
+      "/posts/seaborn_demo.html",
       "/posts/clustering.html",
       "/posts/classification.html",
-      "/posts/pca.html"
+      "/posts/pca.html",
+      "/posts/regression.html"
     ]
   }
 ]
