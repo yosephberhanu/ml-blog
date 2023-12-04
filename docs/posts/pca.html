@@ -461,9 +461,9 @@ dtype: float64</code></pre>
 <section id="step-1.-standardization" class="level3">
 <h3 class="anchored" data-anchor-id="step-1.-standardization">Step 1. Standardization</h3>
 <p>PCA is sensitive to variance, meaning if features different range in values the PCA calculation will be dominated by features with a larger range. In our dataset, we have features that represent a percentage value (hence the potential values range from 0 to 100, but the actual maximum value in the dataset is way below 100). We also have other features that have a more inconsistent range. For example, the <code>ins_premium</code> has a range of <code>659.560</code> while <code>speading</code> has a range of <code>7.658</code>. As a result, the PCA analysis will be greatly (and incorrectly) influenced by a change in <code>ins_premium</code> value.</p>
-<p>To address this issue we perform standardization before PCA, that is we bring values of all features to a standard range. The one common way to standardize any data is called mean centering where we subtract the mean from each value.</p>
+<p>To address this issue we perform standardization before PCA, that is we bring values of all features to a standard range. The one common way to standardize any data is the following formula.</p>
 <p><span class="math display">\[
-z = v - \mu
+z = \frac{v - \mu}{\sigma}
 \]</span> Where <span class="math inline">\(z\)</span> is the standardized value, <span class="math inline">\(v\)</span> is the original value, <span class="math inline">\(\mu\)</span> stands for mean and <span class="math inline">\(\sigma\)</span> is the standard deviation</p>
 <p>We can perform this calculation in python as follows</p>
 <div class="cell" data-execution_count="11">

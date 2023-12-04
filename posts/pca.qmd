@@ -119,10 +119,10 @@ Now that we've explained the data we'll use for demonstrating PCA and the steps 
 ### Step 1. Standardization
 PCA is sensitive to variance, meaning if features different range in values the PCA calculation will be dominated by features with a larger range. In our dataset, we have features that represent a percentage value (hence the potential values range from 0 to 100, but the actual maximum value in the dataset is way below 100). We also have other features that have a more inconsistent range. For example, the `ins_premium` has a range of `659.560` while `speading` has a range of `7.658`. As a result, the PCA analysis will be greatly (and incorrectly) influenced by a change in `ins_premium` value. 
 
-To address this issue we perform standardization before PCA, that is we bring values of all features to a standard range. The one common way to standardize any data is called mean centering where we subtract the mean from each value.
+To address this issue we perform standardization before PCA, that is we bring values of all features to a standard range. The one common way to standardize any data is the following formula.
 
 $$
-z = v - \mu
+z = \frac{v - \mu}{\sigma}
 $$
 Where $z$ is the standardized value, $v$ is the original value,  $\mu$ stands for mean and $\sigma$ is the standard deviation
 

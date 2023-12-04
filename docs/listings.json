@@ -3,10 +3,10 @@
     "listing": "/index.html",
     "items": [
       "/posts/seaborn_demo.html",
-      "/posts/clustering.html",
-      "/posts/Anomaly Detection.html",
       "/posts/pca.html",
       "/posts/student-grade-prediction.html",
+      "/posts/clustering.html",
+      "/posts/Anomaly Detection.html",
       "/posts/regression.html"
     ]
   }
