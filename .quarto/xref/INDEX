@@ -43,5 +43,8 @@
   },
   "posts/Anomaly Detection.qmd": {
     "Anomaly Detection.html": "adda94ff"
+  },
+  "posts/student-grade-prediction.qmd": {
+    "student-grade-prediction.html": "1fc87d10"
   }
 }
