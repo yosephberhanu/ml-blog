@@ -206,15 +206,15 @@ print("Test y Shape: {}".format(y_test.shape))
 We will try to train on multiple algorithms and perform hyperparamter tuining on each to find the best performing model
 ``` {python}
 models = {
-    # "ExtraTreesRegressor": {
-    #     "model": ExtraTreesRegressor(),
-    #     "params": {
-    #         "n_estimators": [25, 50, 75, 100],
-    #         "max_depth": [5, 10, 20],
-    #         "min_samples_split": [3, 5, 7],
-    #         "min_samples_leaf": [3, 4, 5],
-    #     },
-    # },
+    "ExtraTreesRegressor": {
+        "model": ExtraTreesRegressor(),
+        "params": {
+            "n_estimators": [25, 50, 75, 100],
+            "max_depth": [5, 10, 20],
+            "min_samples_split": [3, 5, 7],
+            "min_samples_leaf": [3, 4, 5],
+        },
+    },
     "adaboost": {
         "model": AdaBoostRegressor(),
         "params": {
@@ -222,46 +222,46 @@ models = {
             "loss": ["linear", "square", "exponential"],
         },
     },
-    # "svm": {
-    #     "model": svm.SVR(),
-    #     "params": {
-    #         "degree": [2, 4, 6],
-    #         "C": [0.5, 1.0, 1.5],
-    #     },
-    # },
-    # "knr": {
-    #     "model": KNeighborsRegressor(),
-    #     "params": {
-    #         "n_neighbors": [3, 5, 8],
-    #         "weights": ["uniform", "distance"],
-    #         "leaf_size": [20, 40, 60],
-    #     },
-    # },
-    # "rnr": {
-    #     "model": RadiusNeighborsRegressor(),
-    #     "params": {
-    #         "radius": [0.5, 1.0, 1.5],
-    #         "weights": ["uniform", "distance"],
-    #         "leaf_size": [20, 40, 60],
-    #     },
-    # },
-    # "RandomForestRegressor": {
-    #     "model": RandomForestRegressor(),
-    #     "params": {
-    #         "n_estimators": [25, 50, 75, 100],
-    #         "max_depth": [5, 10, 20],
-    #         "min_samples_split": [3, 5, 7],
-    #         "min_samples_leaf": [3, 4, 5],
-    #     },
-    # },
-    # "boosting": {
-    #     "model": GradientBoostingRegressor(),
-    #     "params": {
-    #         "n_estimators": [25, 50, 75, 100],
-    #         "loss": ["linear", "square", "exponential"],
-    #         "min_samples_split": [3, 5, 7],
-    #     },
-    # },
+    "svm": {
+        "model": svm.SVR(),
+        "params": {
+            "degree": [2, 4, 6],
+            "C": [0.5, 1.0, 1.5],
+        },
+    },
+    "knr": {
+        "model": KNeighborsRegressor(),
+        "params": {
+            "n_neighbors": [3, 5, 8],
+            "weights": ["uniform", "distance"],
+            "leaf_size": [20, 40, 60],
+        },
+    },
+    "rnr": {
+        "model": RadiusNeighborsRegressor(),
+        "params": {
+            "radius": [0.5, 1.0, 1.5],
+            "weights": ["uniform", "distance"],
+            "leaf_size": [20, 40, 60],
+        },
+    },
+    "RandomForestRegressor": {
+        "model": RandomForestRegressor(),
+        "params": {
+            "n_estimators": [25, 50, 75, 100],
+            "max_depth": [5, 10, 20],
+            "min_samples_split": [3, 5, 7],
+            "min_samples_leaf": [3, 4, 5],
+        },
+    },
+    "boosting": {
+        "model": GradientBoostingRegressor(),
+        "params": {
+            "n_estimators": [25, 50, 75, 100],
+            "loss": ["linear", "square", "exponential"],
+            "min_samples_split": [3, 5, 7],
+        },
+    },
 }
 ```
 Now let's peform the training and hyperparamter tuining.
@@ -271,7 +271,7 @@ best_model, best_params, best_performance = None, None, float("inf")
 ```
 Loop through each model and perform randomized search.
 __Note__: Running the following code takes a lot of time so what I did was run it on google colab and bring the results here. 
-```{python}
+```{.python}
 for name, info in models.items():
     random_search = RandomizedSearchCV(
         info["model"],
@@ -307,15 +307,18 @@ I found the best berformance in terms of mean absolut error comes from AdaBoostR
 
 ### Best Model
 Best Model: AdaBoostRegressor(n_estimators=75)
+
 Best Parameters: {'n_estimators': 75, 'loss': 'linear'}
+
 Lowest Mean Squared Error: 591.7667123496269
 
-### Other sample runs are as follows
-Model: KNeighborsRegressor(leaf_size=20, n_neighbors=8)
-Parameters: {'n_neighbors': 8, 'leaf_size': 20}
-Mean Squared Error: 619.6920968478757
+## Other sample runs are as follows
+### KNeighborsRegressor
+* Model: KNeighborsRegressor(leaf_size=20, n_neighbors=8)
+* Parameters: {'n_neighbors': 8, 'leaf_size': 20}
+* Mean Squared Error: 619.6920968478757
 
-
-Model: RadiusNeighborsRegressor(leaf_size=40, radius=0.5, weights='distance')
-Parameters: {'weights': 'distance', 'radius': 0.5, 'leaf_size': 40}
-Mean Squared Error: 615.0418760469012
+### RadiusNeighborsRegressor
+* Model: RadiusNeighborsRegressor(leaf_size=40, radius=0.5, weights='distance')
+* Parameters: {'weights': 'distance', 'radius': 0.5, 'leaf_size': 40}
+* Mean Squared Error: 615.0418760469012

@@ -2161,77 +2161,77 @@ Test y Shape: (22,)</code></pre>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LogisticRegression</td>
 <td>0.670588</td>
-<td>0.681818</td>
+<td>0.636364</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">MultinomialNB</td>
-<td>0.611765</td>
-<td>0.590909</td>
+<td>0.647059</td>
+<td>0.636364</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">BaggingClassifier</td>
-<td>1.0</td>
-<td>0.636364</td>
+<td>0.976471</td>
+<td>0.590909</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">DecisionTreeClassifier</td>
 <td>1.0</td>
-<td>0.727273</td>
+<td>0.545455</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LinearSVC</td>
-<td>0.717647</td>
-<td>0.727273</td>
+<td>0.8</td>
+<td>0.681818</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">SGDClassifier</td>
-<td>0.658824</td>
+<td>0.694118</td>
 <td>0.590909</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">KNeighborsClassifier</td>
-<td>0.682353</td>
-<td>0.681818</td>
+<td>0.670588</td>
+<td>0.5</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">RandomForestClassifier</td>
 <td>1.0</td>
-<td>0.681818</td>
+<td>0.590909</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">GradientBoostingClassifier</td>
 <td>1.0</td>
-<td>0.727273</td>
+<td>0.5</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">SVC</td>
-<td>0.647059</td>
-<td>0.681818</td>
+<td>0.658824</td>
+<td>0.636364</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">GaussianProcessClassifier</td>
-<td>0.658824</td>
-<td>0.681818</td>
+<td>0.670588</td>
+<td>0.636364</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">MLPClassifier</td>
-<td>0.741176</td>
-<td>0.681818</td>
+<td>0.764706</td>
+<td>0.636364</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">AdaBoostClassifier</td>
-<td>0.670588</td>
-<td>0.681818</td>
+<td>0.682353</td>
+<td>0.590909</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">GaussianNB</td>
-<td>0.717647</td>
-<td>0.5</td>
+<td>0.694118</td>
+<td>0.454545</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">QuadraticDiscriminantAnalysis</td>
 <td>1.0</td>
-<td>0.636364</td>
+<td>0.5</td>
 </tr>
 </tbody>
 </table>
@@ -2262,8 +2262,8 @@ Test y Shape: (22,)</code></pre>
 <span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SGDClassifier  best estimator </span><span class="ch">\n</span><span class="st"> alpha = </span><span class="sc">{}</span><span class="st"> </span><span class="ch">\n</span><span class="st"> accuracy_score = </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(params[<span class="st">"alpha"</span>],score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>SGDClassifier  best estimator 
- alpha = 0.01 
- accuracy_score = 0.7272727272727273</code></pre>
+ alpha = 0.0001 
+ accuracy_score = 0.5909090909090909</code></pre>
 </div>
 </div>
 </section>
@@ -2281,7 +2281,7 @@ Test y Shape: (22,)</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>LinearSVC best estimator 
  C = 0.1 
- accuracy_score = 0.6363636363636364</code></pre>
+ accuracy_score = 0.5909090909090909</code></pre>
 </div>
 </div>
 </section>
@@ -2306,8 +2306,8 @@ Test y Shape: (22,)</code></pre>
 <span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">" accuracy_score = </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>MLPClassifier best estimator
- alpha = 1 
- learning_rate = constant
+ alpha = 0.0001 
+ learning_rate = invscaling
  accuracy_score = 0.6363636363636364</code></pre>
 </div>
 </div>

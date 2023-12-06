@@ -171,7 +171,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
   <ul class="collapse">
   <li><a href="#best-model" id="toc-best-model" class="nav-link" data-scroll-target="#best-model">Best Model</a></li>
-  <li><a href="#other-sample-runs-are-as-follows" id="toc-other-sample-runs-are-as-follows" class="nav-link" data-scroll-target="#other-sample-runs-are-as-follows">Other sample runs are as follows</a></li>
+  <li><a href="#other-sample-runs-are-as-follows" id="toc-other-sample-runs-are-as-follows" class="nav-link" data-scroll-target="#other-sample-runs-are-as-follows">Other sample runs are as follows</a>
+  <ul class="collapse">
+  <li><a href="#kneighborsregressor" id="toc-kneighborsregressor" class="nav-link" data-scroll-target="#kneighborsregressor">KNeighborsRegressor</a></li>
+  <li><a href="#radiusneighborsregressor" id="toc-radiusneighborsregressor" class="nav-link" data-scroll-target="#radiusneighborsregressor">RadiusNeighborsRegressor</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/yosephberhanu/ml-blog/blob/main/posts/regression.qmd" class="toc-action">View source</a></p></div></div></nav>
@@ -276,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> pd.read_csv(<span class="st">"../data/spotify_songs.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -453,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="st">"columns"</span>,</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -601,14 +605,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s check if there are any missing values in our dataset</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>songs.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="59">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>True</code></pre>
 </div>
 </div>
 <p>It seems we’ve some</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>songs.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="60">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>track_popularity        0
 playlist_genre          0
 playlist_subgenre       0
@@ -640,7 +644,7 @@ dtype: int64</code></pre>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>songs[<span class="st">"release_day"</span>].fillna(songs[<span class="st">"release_day"</span>].value_counts().index[<span class="dv">0</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>songs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="61">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -910,7 +914,7 @@ dtype: int64</code></pre>
 <p>If we check once more, we see there are no missing values anymore</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>songs.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>False</code></pre>
 </div>
 </div>
@@ -921,7 +925,7 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(songs, x<span class="op">=</span><span class="st">"playlist_subgenre"</span>, hue<span class="op">=</span><span class="st">"playlist_genre"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="63">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>(array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
         17, 18, 19, 20, 21, 22, 23]),
  [Text(0, 0, 'dance pop'),
@@ -966,7 +970,7 @@ dtype: int64</code></pre>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> pd.concat([songs, playlist_subgenre], axis<span class="op">=</span><span class="st">"columns"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop(<span class="st">"playlist_subgenre"</span>, axis<span class="op">=</span><span class="st">"columns"</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>songs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="65">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -1342,15 +1346,15 @@ Test y Shape: (6567,)</code></pre>
 <p>We will try to train on multiple algorithms and perform hyperparamter tuining on each to find the best performing model</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "ExtraTreesRegressor": {</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "model": ExtraTreesRegressor(),</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "params": {</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "n_estimators": [25, 50, 75, 100],</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "max_depth": [5, 10, 20],</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "min_samples_split": [3, 5, 7],</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "min_samples_leaf": [3, 4, 5],</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     },</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># },</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ExtraTreesRegressor"</span>: {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"model"</span>: ExtraTreesRegressor(),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"params"</span>: {</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_estimators"</span>: [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>, <span class="dv">100</span>],</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"max_depth"</span>: [<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>],</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples_split"</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>],</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples_leaf"</span>: [<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>],</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    },</span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"adaboost"</span>: {</span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"model"</span>: AdaBoostRegressor(),</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"params"</span>: {</span>
@@ -1358,46 +1362,46 @@ Test y Shape: (6567,)</code></pre>
 <span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">"loss"</span>: [<span class="st">"linear"</span>, <span class="st">"square"</span>, <span class="st">"exponential"</span>],</span>
 <span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        },</span>
 <span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "svm": {</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "model": svm.SVR(),</span></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "params": {</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "degree": [2, 4, 6],</span></span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "C": [0.5, 1.0, 1.5],</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     },</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># },</span></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "knr": {</span></span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "model": KNeighborsRegressor(),</span></span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "params": {</span></span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "n_neighbors": [3, 5, 8],</span></span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "weights": ["uniform", "distance"],</span></span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "leaf_size": [20, 40, 60],</span></span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     },</span></span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># },</span></span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "rnr": {</span></span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "model": RadiusNeighborsRegressor(),</span></span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "params": {</span></span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "radius": [0.5, 1.0, 1.5],</span></span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "weights": ["uniform", "distance"],</span></span>
-<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "leaf_size": [20, 40, 60],</span></span>
-<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     },</span></span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># },</span></span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "RandomForestRegressor": {</span></span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "model": RandomForestRegressor(),</span></span>
-<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "params": {</span></span>
-<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "n_estimators": [25, 50, 75, 100],</span></span>
-<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "max_depth": [5, 10, 20],</span></span>
-<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "min_samples_split": [3, 5, 7],</span></span>
-<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "min_samples_leaf": [3, 4, 5],</span></span>
-<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     },</span></span>
-<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># },</span></span>
-<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "boosting": {</span></span>
-<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "model": GradientBoostingRegressor(),</span></span>
-<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     "params": {</span></span>
-<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "n_estimators": [25, 50, 75, 100],</span></span>
-<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "loss": ["linear", "square", "exponential"],</span></span>
-<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "min_samples_split": [3, 5, 7],</span></span>
-<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     },</span></span>
-<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># },</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"svm"</span>: {</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"model"</span>: svm.SVR(),</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"params"</span>: {</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">"degree"</span>: [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>],</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C"</span>: [<span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>],</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"knr"</span>: {</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"model"</span>: KNeighborsRegressor(),</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"params"</span>: {</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_neighbors"</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">8</span>],</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>            <span class="st">"weights"</span>: [<span class="st">"uniform"</span>, <span class="st">"distance"</span>],</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">"leaf_size"</span>: [<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>],</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rnr"</span>: {</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"model"</span>: RadiusNeighborsRegressor(),</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"params"</span>: {</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">"radius"</span>: [<span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>],</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">"weights"</span>: [<span class="st">"uniform"</span>, <span class="st">"distance"</span>],</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">"leaf_size"</span>: [<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>],</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RandomForestRegressor"</span>: {</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">"model"</span>: RandomForestRegressor(),</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"params"</span>: {</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_estimators"</span>: [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>, <span class="dv">100</span>],</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>            <span class="st">"max_depth"</span>: [<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>],</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples_split"</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>],</span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples_leaf"</span>: [<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>],</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"boosting"</span>: {</span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"model"</span>: GradientBoostingRegressor(),</span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">"params"</span>: {</span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_estimators"</span>: [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>, <span class="dv">100</span>],</span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>            <span class="st">"loss"</span>: [<span class="st">"linear"</span>, <span class="st">"square"</span>, <span class="st">"exponential"</span>],</span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples_split"</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>],</span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>    },</span>
 <span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s peform the training and hyperparamter tuining. Start by preparing a variable to store the best model and it’s param values in</p>
@@ -1405,8 +1409,7 @@ Test y Shape: (6567,)</code></pre>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>best_model, best_params, best_performance <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>, <span class="bu">float</span>(<span class="st">"inf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Loop through each model and perform randomized search. <strong>Note</strong>: Running the following code takes a lot of time so what I did was run it on google colab and bring the results here.</p>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, info <span class="kw">in</span> models.items():</span>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, info <span class="kw">in</span> models.items():</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    random_search <span class="op">=</span> RandomizedSearchCV(</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>        info[<span class="st">"model"</span>],</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        info[<span class="st">"params"</span>],</span>
@@ -1433,11 +1436,6 @@ Test y Shape: (6567,)</code></pre>
 <span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the best model information</span></span>
 <span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Model: </span><span class="sc">{</span>best_model<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Parameters: </span><span class="sc">{</span>best_params<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Best Model: AdaBoostRegressor()
-Best Parameters: {'n_estimators': 50, 'loss': 'linear'}</code></pre>
-</div>
-</div>
 </section>
 </section>
 <section id="conclusion" class="level1">
@@ -1445,14 +1443,30 @@ Best Parameters: {'n_estimators': 50, 'loss': 'linear'}</code></pre>
 <p>I found the best berformance in terms of mean absolut error comes from AdaBoostRegressor with the follwoing details</p>
 <section id="best-model" class="level3">
 <h3 class="anchored" data-anchor-id="best-model">Best Model</h3>
-<p>Best Model: AdaBoostRegressor(n_estimators=75) Best Parameters: {‘n_estimators’: 75, ‘loss’: ‘linear’} Lowest Mean Squared Error: 591.7667123496269</p>
+<p>Best Model: AdaBoostRegressor(n_estimators=75)</p>
+<p>Best Parameters: {‘n_estimators’: 75, ‘loss’: ‘linear’}</p>
+<p>Lowest Mean Squared Error: 591.7667123496269</p>
 </section>
-<section id="other-sample-runs-are-as-follows" class="level3">
-<h3 class="anchored" data-anchor-id="other-sample-runs-are-as-follows">Other sample runs are as follows</h3>
-<p>Model: KNeighborsRegressor(leaf_size=20, n_neighbors=8) Parameters: {‘n_neighbors’: 8, ‘leaf_size’: 20} Mean Squared Error: 619.6920968478757</p>
-<p>Model: RadiusNeighborsRegressor(leaf_size=40, radius=0.5, weights=‘distance’) Parameters: {‘weights’: ‘distance’, ‘radius’: 0.5, ‘leaf_size’: 40} Mean Squared Error: 615.0418760469012</p>
+<section id="other-sample-runs-are-as-follows" class="level2">
+<h2 class="anchored" data-anchor-id="other-sample-runs-are-as-follows">Other sample runs are as follows</h2>
+<section id="kneighborsregressor" class="level3">
+<h3 class="anchored" data-anchor-id="kneighborsregressor">KNeighborsRegressor</h3>
+<ul>
+<li>Model: KNeighborsRegressor(leaf_size=20, n_neighbors=8)</li>
+<li>Parameters: {‘n_neighbors’: 8, ‘leaf_size’: 20}</li>
+<li>Mean Squared Error: 619.6920968478757</li>
+</ul>
+</section>
+<section id="radiusneighborsregressor" class="level3">
+<h3 class="anchored" data-anchor-id="radiusneighborsregressor">RadiusNeighborsRegressor</h3>
+<ul>
+<li>Model: RadiusNeighborsRegressor(leaf_size=40, radius=0.5, weights=‘distance’)</li>
+<li>Parameters: {‘weights’: ‘distance’, ‘radius’: 0.5, ‘leaf_size’: 40}</li>
+<li>Mean Squared Error: 615.0418760469012</li>
+</ul>
 
 
+</section>
 </section>
 </section>
 
