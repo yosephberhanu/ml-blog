@@ -6,7 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-12-06">
+<meta name="dcterms.date" content="2023-12-07">
+<meta name="description" content="Using DBSCAN">
 
 <title>Yoseph’s ML Blog - Anomaly Detection</title>
 <style>
@@ -20,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -60,6 +95,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -102,7 +140,21 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
+  <li><a href="#dbscan" id="toc-dbscan" class="nav-link" data-scroll-target="#dbscan">DBSCAN</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
+  <li><a href="#imports" id="toc-imports" class="nav-link" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the data</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing values</a></li>
+  </ul></li>
+  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">Model fitting</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/yosephberhanu/ml-blog/blob/main/posts/Anomaly Detection.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -112,9 +164,15 @@ ul.task-list li input[type="checkbox"] {
 <h1 class="title">Anomaly Detection</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Anomaly Detection</div>
+    <div class="quarto-category">DBSCAN</div>
   </div>
   </div>
 
+<div>
+  <div class="description">
+    Using DBSCAN
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -123,7 +181,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 6, 2023</p>
+      <p class="date">December 7, 2023</p>
     </div>
   </div>
   
@@ -134,11 +192,252 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Banner Image Credit <a href="https://www.evidentlyai.com">Evidently AI</a></p>
-<p>Excepteur qui velit commodo non cillum enim duis occaecat laborum tempor sint do anim. In nostrud ex aliqua commodo sunt quis velit. Enim laborum officia officia nostrud sunt velit dolore Lorem occaecat ipsum.</p>
-<p>Pariatur mollit in eiusmod irure velit veniam aliquip tempor culpa minim. Nulla proident eiusmod ipsum aute eiusmod aliqua. Amet cupidatat adipisicing nostrud exercitation amet anim aliqua sint mollit in dolor culpa. Adipisicing nostrud culpa excepteur ullamco. Eiusmod eu laboris excepteur sint eu excepteur et. Ullamco eu cupidatat consectetur fugiat minim fugiat sunt ut minim. Pariatur dolor exercitation sunt ipsum Lorem velit sit Lorem laboris Lorem.</p>
-<p>Qui Lorem fugiat do commodo exercitation anim commodo incididunt sint aute deserunt nulla. Ex incididunt do ut ullamco exercitation in laborum cupidatat. Dolor laboris cupidatat anim sint. Culpa elit voluptate officia ex elit ullamco fugiat pariatur mollit labore eiusmod id anim.</p>
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<p>In this blog post I’ll demonstrate a category of application for unsupervised machine learning - Anomaly Detection. Also know as Outlier analysis, it refers to the process of identifying patterns or instances within a dataset that deviate significantly from the norm or expected behavior. These anomalies can represent events, observations, or data points that differ from the majority of the dataset due to various reasons like errors, unexpected occurrences, or genuine novel behavior.</p>
+<p>The primary goal of anomaly detection is to distinguish these irregular patterns or outliers from the regular or “normal” data points. This process is crucial across multiple domains and applications, including fraud detection in finance, network security, health monitoring, industrial systems, and more.</p>
+<p>Supervised, unsupervised, and semi-supervised machine learning algorithms, including clustering (like DBSCAN, K-means), density-based methods (like Gaussian Mixture Models), one-class classification algorithms (like Isolation Forest, One-Class SVM), and deep learning approaches, are utilized to detect anomalies based on patterns, deviations, or differences in the data.</p>
+<p>Anomaly detection is a critical task as it helps in identifying potential problems, threats, or opportunities that may require immediate attention or further investigation. However, it can also be challenging due to the dynamic nature of anomalies and the need for adaptable algorithms capable of handling diverse types of anomalies within different datasets and contexts.</p>
+</section>
+<section id="dbscan" class="level1">
+<h1>DBSCAN</h1>
+<p>In this blog post we’ll be using DBSCAN as our outlier analysis technique. DBSCAN is an unsupervised machine learning technique rooted in density-based principles. This algorithm effectively detects clusters within extensive spatial datasets by assessing the local density of data points. It typically performs well in anomaly detection scenarios. Data points that do not fit within any cluster are assigned their distinct class, labeled as -1, simplifying their identification. Notably, DBSCAN exhibits robustness in handling outliers, especially when dealing with data represented by non-discrete points. DBSCAN focuses on the density of data points rather than assuming a specific number of clusters beforehand. It identifies clusters based on the density of points within a neighborhood. The algorithm defines clusters as regions where there is a high density of data points. It considers two essential parameters:</p>
+<ul>
+<li>Epsilon (ε): This represents the radius within which neighboring points are considered part of the same cluster.</li>
+<li>Minimum Points (MinPts): It sets the minimum number of points required within the epsilon radius to form a cluster.</li>
+</ul>
+<p>DBSCAN starts by selecting a random unvisited point and examines its neighborhood. If the point is a core point, it forms a cluster and expands it by adding neighboring points. If the point is a border point, it’s added to an existing cluster. If neither, it’s labeled as noise.</p>
+<p>DBSCAN can identify clusters of varying shapes and handle varying densities within clusters effectively. It is robust in detecting clusters of arbitrary shapes, can handle noise/outliers, and doesn’t require specifying the number of clusters beforehand. However setting suitable values for ε and MinPts can impact the performance of DBSCAN. Choosing appropriate parameters often requires domain knowledge or experimentation.</p>
+</section>
+<section id="data" class="level1">
+<h1>Data</h1>
+<p>For the purpose of demonstration we will be using a dataset that comes bundled with the seaborn package in python. Among the handfull of options, I’ve chosen to use the titanic dataset. Let’s get started</p>
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s see what comes with seaborn</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sns.get_dataset_names())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['anagrams', 'anscombe', 'attention', 'brain_networks', 'car_crashes', 'diamonds', 'dots', 'dowjones', 'exercise', 'flights', 'fmri', 'geyser', 'glue', 'healthexp', 'iris', 'mpg', 'penguins', 'planets', 'seaice', 'taxis', 'tips', 'titanic']</code></pre>
+</div>
+</div>
+</section>
+<section id="load-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-data">Load the data</h2>
+<p>Let us load the car car titanic dataset</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="op">=</span> sns.load_dataset(<span class="st">"titanic"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>titanic.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="334">
+<div>
 
 
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">survived</th>
+<th data-quarto-table-cell-role="th">pclass</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">sibsp</th>
+<th data-quarto-table-cell-role="th">parch</th>
+<th data-quarto-table-cell-role="th">fare</th>
+<th data-quarto-table-cell-role="th">embarked</th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">who</th>
+<th data-quarto-table-cell-role="th">adult_male</th>
+<th data-quarto-table-cell-role="th">deck</th>
+<th data-quarto-table-cell-role="th">embark_town</th>
+<th data-quarto-table-cell-role="th">alive</th>
+<th data-quarto-table-cell-role="th">alone</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>3</td>
+<td>male</td>
+<td>22.0</td>
+<td>1</td>
+<td>0</td>
+<td>7.2500</td>
+<td>S</td>
+<td>Third</td>
+<td>man</td>
+<td>True</td>
+<td>NaN</td>
+<td>Southampton</td>
+<td>no</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>1</td>
+<td>female</td>
+<td>38.0</td>
+<td>1</td>
+<td>0</td>
+<td>71.2833</td>
+<td>C</td>
+<td>First</td>
+<td>woman</td>
+<td>False</td>
+<td>C</td>
+<td>Cherbourg</td>
+<td>yes</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>3</td>
+<td>female</td>
+<td>26.0</td>
+<td>0</td>
+<td>0</td>
+<td>7.9250</td>
+<td>S</td>
+<td>Third</td>
+<td>woman</td>
+<td>False</td>
+<td>NaN</td>
+<td>Southampton</td>
+<td>yes</td>
+<td>True</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>1</td>
+<td>female</td>
+<td>35.0</td>
+<td>1</td>
+<td>0</td>
+<td>53.1000</td>
+<td>S</td>
+<td>First</td>
+<td>woman</td>
+<td>False</td>
+<td>C</td>
+<td>Southampton</td>
+<td>yes</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0</td>
+<td>3</td>
+<td>male</td>
+<td>35.0</td>
+<td>0</td>
+<td>0</td>
+<td>8.0500</td>
+<td>S</td>
+<td>Third</td>
+<td>man</td>
+<td>True</td>
+<td>NaN</td>
+<td>Southampton</td>
+<td>no</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>We’ll use the age and fair columns in this case to make our demonstrations either. Let’s plot the data and get a sense of how it looks</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>titanic, x<span class="op">=</span><span class="st">"fare"</span>, y<span class="op">=</span><span class="st">"age"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="335">
+<pre><code>&lt;Axes: xlabel='fare', ylabel='age'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Anomaly Detection_files/figure-html/cell-5-output-2.png" width="585" height="429"></p>
+</div>
+</div>
+</section>
+<section id="missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="missing-values">Missing values</h2>
+<p>Let’s check if there are any missing values in our dataset</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>titanic_age_fare <span class="op">=</span> titanic[[<span class="st">"fare"</span>, <span class="st">"age"</span>]]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>titanic_age_fare.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="336">
+<pre><code>True</code></pre>
+</div>
+</div>
+<p>Looks like we’ve missing values, let’s see how many in each feature</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing fare values"</span>, titanic_age_fare[<span class="st">"fare"</span>].isnull().<span class="bu">sum</span>())</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing age values"</span>, titanic_age_fare[<span class="st">"age"</span>].isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Missing fare values 0
+Missing age values 177</code></pre>
+</div>
+</div>
+<p>Given that there is a high number of missing age values we can’t simpply drop these rows, so let’s fill them with the avarage age</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>titanic_age_fare[<span class="st">"age"</span>].fillna((titanic_age_fare[<span class="st">"age"</span>].mean()), inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>titanic_age_fare.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="338">
+<pre><code>False</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="model-fitting" class="level1">
+<h1>Model fitting</h1>
+<p>Let’s try to fit a DBSCAN model with the two features and see</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dbscan <span class="op">=</span> DBSCAN()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dbscan.fit(titanic_age_fare)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="339">
+<style>#sk-container-id-31 {color: black;}#sk-container-id-31 pre{padding: 0;}#sk-container-id-31 div.sk-toggleable {background-color: white;}#sk-container-id-31 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-31 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-31 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-31 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-31 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-31 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-31 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-31 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-31 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-31 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-31 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-31 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-31 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-31 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-31 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-31 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-31 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-31 div.sk-item {position: relative;z-index: 1;}#sk-container-id-31 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-31 div.sk-item::before, #sk-container-id-31 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-31 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-31 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-31 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-31 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-31 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-31 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-31 div.sk-label-container {text-align: center;}#sk-container-id-31 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-31 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-31" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DBSCAN()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-31" type="checkbox" checked=""><label for="sk-estimator-id-31" class="sk-toggleable__label sk-toggleable__label-arrow">DBSCAN</label><div class="sk-toggleable__content"><pre>DBSCAN()</pre></div></div></div></div></div>
+</div>
+</div>
+<p>Now let’s visualize and see if there are outliers based on DBSCAN’s classification</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(titanic_age_fare, x<span class="op">=</span><span class="st">"fare"</span>, y<span class="op">=</span><span class="st">"age"</span>, c<span class="op">=</span>dbscan.labels_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="340">
+<pre><code>&lt;Axes: xlabel='fare', ylabel='age'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Anomaly Detection_files/figure-html/cell-10-output-2.png" width="585" height="429"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(titanic_age_fare[dbscan.labels_ <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        fare        age
+1    71.2833  38.000000
+3    53.1000  35.000000
+4     8.0500  35.000000
+6    51.8625  54.000000
+7    21.0750   2.000000
+..       ...        ...
+885  29.1250  39.000000
+886  13.0000  27.000000
+887  30.0000  19.000000
+888  23.4500  29.699118
+889  30.0000  26.000000
+
+[634 rows x 2 columns]</code></pre>
+</div>
+</div>
+<p>Based on this visualization and the labels created we can see DBSCAN was not able to detect any outliers with the given features. This holds even after expermenting with multiple values of epsillon for DBSCAN.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -378,4 +677,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/yosephberhanu/ml-blog/blob/main/posts/Anomaly Detection.qmd" class="toc-action">View source</a></p></div></div></div></div></footer></body></html>
+</body></html>
