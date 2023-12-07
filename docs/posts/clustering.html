@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-12-06">
-<meta name="description" content="DBSCAN labels for scatter plot">
+<meta name="dcterms.date" content="2023-12-07">
+<meta name="description" content="K-Means Clustering">
 
-<title>Yoseph’s ML Blog - Clustering</title>
+<title>Yoseph’s ML Blog - Music Data Clustering</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -61,6 +95,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -103,23 +140,39 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#task" id="toc-task" class="nav-link active" data-scroll-target="#task">Task</a></li>
+  <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the data</a></li>
+  <li><a href="#remove-features" id="toc-remove-features" class="nav-link" data-scroll-target="#remove-features">Remove Features</a>
+  <ul class="collapse">
+  <li><a href="#identifiers" id="toc-identifiers" class="nav-link" data-scroll-target="#identifiers">identifiers</a></li>
+  <li><a href="#date-data" id="toc-date-data" class="nav-link" data-scroll-target="#date-data">Date Data</a></li>
+  <li><a href="#gener" id="toc-gener" class="nav-link" data-scroll-target="#gener">Gener</a></li>
+  </ul></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing values</a></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
+  <li><a href="#clusturing" id="toc-clusturing" class="nav-link" data-scroll-target="#clusturing">Clusturing</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/yosephberhanu/ml-blog/blob/main/posts/clustering.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clustering</h1>
+<h1 class="title">Music Data Clustering</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">DBScan</div>
+    <div class="quarto-category">KMeans</div>
     <div class="quarto-category">Clustering</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    DBSCAN labels for scatter plot
+    K-Means Clustering
   </div>
 </div>
 
@@ -130,7 +183,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 6, 2023</p>
+      <p class="date">December 7, 2023</p>
     </div>
   </div>
   
@@ -141,11 +194,580 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Banner Image Credit: <a href="https://www.rochester.edu/newscenter/global-grouping-theory-math-strategies-students-529492/">University of Rochester</a></p>
-<p>Adipisicing sunt nisi nulla pariatur ex ipsum mollit. Dolor commodo cillum sint amet commodo. Nulla culpa aliqua enim ad anim. Aliquip ex duis minim laborum enim aliquip ad aliqua. Sit consectetur excepteur ea aliqua exercitation Lorem ex elit incididunt consequat ea. Excepteur qui velit commodo non cillum enim duis occaecat laborum tempor sint do anim. In nostrud ex aliqua commodo sunt quis velit. Enim laborum officia officia nostrud sunt velit dolore Lorem occaecat ipsum.</p>
-<p>Pariatur mollit in eiusmod irure velit veniam aliquip tempor culpa minim. Nulla proident eiusmod ipsum aute eiusmod aliqua. Amet cupidatat adipisicing nostrud exercitation amet anim aliqua sint mollit in dolor culpa. Adipisicing nostrud culpa excepteur ullamco. Eiusmod eu laboris excepteur sint eu excepteur et. Ullamco eu cupidatat consectetur fugiat minim fugiat sunt ut minim. Pariatur dolor exercitation sunt ipsum Lorem velit sit Lorem laboris Lorem.</p>
-<p>Qui Lorem fugiat do commodo exercitation anim commodo incididunt sint aute deserunt nulla. Ex incididunt do ut ullamco exercitation in laborum cupidatat. Dolor laboris cupidatat anim sint. Culpa elit voluptate officia ex elit ullamco fugiat pariatur mollit labore eiusmod id anim.</p>
+<p>In this post I’ll explore the K Means algorithm to cluster <a href="../data/spotify_songs.csv">data</a> fetched from spotify API. This data containes the following attributes</p>
+<ul>
+<li><strong>Track_id</strong>: Unique identifier for a song</li>
+<li><strong>Track_name</strong>: Name of the song</li>
+<li><strong>Track_artist</strong>: Artist of the song</li>
+<li><strong>Track_popularity</strong>: Song popularity rating (0-100)</li>
+<li><strong>Track_album_id</strong>: Unique identifier for the album</li>
+<li><strong>Track_album_name</strong>: Name of the album</li>
+<li><strong>Track_album_release_date</strong>: Release date of the album</li>
+<li><strong>Playlist_name</strong>: Name of the playlist</li>
+<li><strong>Playlist_id</strong>: Identifier of the playlist</li>
+<li><strong>Playlist_genre</strong>: Genre of the playlist</li>
+<li><strong>Playlist_subgenre</strong>: Subgenre of the playlist</li>
+<li><strong>Danceability</strong>: Indicates how suitable a track is for dancing (ranging from 0.0 to 1.0)</li>
+<li><strong>Energy</strong>: Represents the intensity and activity level of the track (ranging from 0.0 to 1.0)</li>
+<li><strong>Key</strong>: Estimated overall key of the track</li>
+<li><strong>Loudness</strong>: Overall loudness of a track in decibels (dB)</li>
+<li><strong>Mode</strong>: Indicates the modality of a track (0 for minor, 1 for major)</li>
+<li><strong>Speechiness</strong>: Detects the presence of spoken words in a track (ranging from 0.0 to 1.0)</li>
+<li><strong>Acousticness</strong>: Indicates the likelihood of a track being acoustic (ranging from 0.0 to 1.0)</li>
+<li><strong>Instrumentalness</strong>: Predicts whether a track contains no vocals (ranging from 0.0 to 1.0)</li>
+<li><strong>Liveness</strong>: Detects the presence of a live audience in the recording</li>
+<li><strong>Valence</strong>: Describes the musical positiveness conveyed by a track (ranging from 0.0 to 1.0)</li>
+<li><strong>Tempo</strong>: Estimated tempo of a track in beats per minute (BPM)</li>
+<li><strong>Duration_ms</strong>: Duration of the song in milliseconds</li>
+</ul>
+<section id="task" class="level2">
+<h2 class="anchored" data-anchor-id="task">Task</h2>
+<p>The task for this blog post is to train a couple of regression models and predict how pouplar a song is given the other features about the song.<br>
+# Preprocessing ## Imports</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> preprocessing</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-data">Load the data</h2>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> pd.read_csv(<span class="st">"../data/spotify_songs.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<div>
 
 
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">track_id</th>
+<th data-quarto-table-cell-role="th">track_name</th>
+<th data-quarto-table-cell-role="th">track_artist</th>
+<th data-quarto-table-cell-role="th">track_popularity</th>
+<th data-quarto-table-cell-role="th">track_album_id</th>
+<th data-quarto-table-cell-role="th">track_album_name</th>
+<th data-quarto-table-cell-role="th">track_album_release_date</th>
+<th data-quarto-table-cell-role="th">playlist_name</th>
+<th data-quarto-table-cell-role="th">playlist_id</th>
+<th data-quarto-table-cell-role="th">playlist_genre</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">key</th>
+<th data-quarto-table-cell-role="th">loudness</th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">speechiness</th>
+<th data-quarto-table-cell-role="th">acousticness</th>
+<th data-quarto-table-cell-role="th">instrumentalness</th>
+<th data-quarto-table-cell-role="th">liveness</th>
+<th data-quarto-table-cell-role="th">valence</th>
+<th data-quarto-table-cell-role="th">tempo</th>
+<th data-quarto-table-cell-role="th">duration_ms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>6f807x0ima9a1j3VPbc7VN</td>
+<td>I Don't Care (with Justin Bieber) - Loud Luxur...</td>
+<td>Ed Sheeran</td>
+<td>66</td>
+<td>2oCs0DGTsRO98Gh5ZSl2Cx</td>
+<td>I Don't Care (with Justin Bieber) [Loud Luxury...</td>
+<td>2019-06-14</td>
+<td>Pop Remix</td>
+<td>37i9dQZF1DXcZDD7cfEKhW</td>
+<td>pop</td>
+<td>...</td>
+<td>6</td>
+<td>-2.634</td>
+<td>1</td>
+<td>0.0583</td>
+<td>0.1020</td>
+<td>0.000000</td>
+<td>0.0653</td>
+<td>0.518</td>
+<td>122.036</td>
+<td>194754</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0r7CVbZTWZgbTCYdfa2P31</td>
+<td>Memories - Dillon Francis Remix</td>
+<td>Maroon 5</td>
+<td>67</td>
+<td>63rPSO264uRjW1X5E6cWv6</td>
+<td>Memories (Dillon Francis Remix)</td>
+<td>2019-12-13</td>
+<td>Pop Remix</td>
+<td>37i9dQZF1DXcZDD7cfEKhW</td>
+<td>pop</td>
+<td>...</td>
+<td>11</td>
+<td>-4.969</td>
+<td>1</td>
+<td>0.0373</td>
+<td>0.0724</td>
+<td>0.004210</td>
+<td>0.3570</td>
+<td>0.693</td>
+<td>99.972</td>
+<td>162600</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1z1Hg7Vb0AhHDiEmnDE79l</td>
+<td>All the Time - Don Diablo Remix</td>
+<td>Zara Larsson</td>
+<td>70</td>
+<td>1HoSmj2eLcsrR0vE9gThr4</td>
+<td>All the Time (Don Diablo Remix)</td>
+<td>2019-07-05</td>
+<td>Pop Remix</td>
+<td>37i9dQZF1DXcZDD7cfEKhW</td>
+<td>pop</td>
+<td>...</td>
+<td>1</td>
+<td>-3.432</td>
+<td>0</td>
+<td>0.0742</td>
+<td>0.0794</td>
+<td>0.000023</td>
+<td>0.1100</td>
+<td>0.613</td>
+<td>124.008</td>
+<td>176616</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>75FpbthrwQmzHlBJLuGdC7</td>
+<td>Call You Mine - Keanu Silva Remix</td>
+<td>The Chainsmokers</td>
+<td>60</td>
+<td>1nqYsOef1yKKuGOVchbsk6</td>
+<td>Call You Mine - The Remixes</td>
+<td>2019-07-19</td>
+<td>Pop Remix</td>
+<td>37i9dQZF1DXcZDD7cfEKhW</td>
+<td>pop</td>
+<td>...</td>
+<td>7</td>
+<td>-3.778</td>
+<td>1</td>
+<td>0.1020</td>
+<td>0.0287</td>
+<td>0.000009</td>
+<td>0.2040</td>
+<td>0.277</td>
+<td>121.956</td>
+<td>169093</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1e8PAfcKUYoKkxPhrHqw4x</td>
+<td>Someone You Loved - Future Humans Remix</td>
+<td>Lewis Capaldi</td>
+<td>69</td>
+<td>7m7vv9wlQ4i0LFuJiE2zsQ</td>
+<td>Someone You Loved (Future Humans Remix)</td>
+<td>2019-03-05</td>
+<td>Pop Remix</td>
+<td>37i9dQZF1DXcZDD7cfEKhW</td>
+<td>pop</td>
+<td>...</td>
+<td>1</td>
+<td>-4.672</td>
+<td>1</td>
+<td>0.0359</td>
+<td>0.0803</td>
+<td>0.000000</td>
+<td>0.0833</td>
+<td>0.725</td>
+<td>123.976</td>
+<td>189052</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 23 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="remove-features" class="level2">
+<h2 class="anchored" data-anchor-id="remove-features">Remove Features</h2>
+<section id="identifiers" class="level3">
+<h3 class="anchored" data-anchor-id="identifiers">identifiers</h3>
+<p>Features like track_id, track_name, track_artist, track_album_id, track_album_name, playlist_id,playlist_name will have little contribution to our model as they are unique identifiers. Hence we’ll remove them from the data.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"track_id"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"track_name"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"track_artist"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"track_album_id"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"track_album_name"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"playlist_id"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"playlist_name"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="st">"columns"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">track_popularity</th>
+<th data-quarto-table-cell-role="th">track_album_release_date</th>
+<th data-quarto-table-cell-role="th">playlist_genre</th>
+<th data-quarto-table-cell-role="th">playlist_subgenre</th>
+<th data-quarto-table-cell-role="th">danceability</th>
+<th data-quarto-table-cell-role="th">energy</th>
+<th data-quarto-table-cell-role="th">key</th>
+<th data-quarto-table-cell-role="th">loudness</th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">speechiness</th>
+<th data-quarto-table-cell-role="th">acousticness</th>
+<th data-quarto-table-cell-role="th">instrumentalness</th>
+<th data-quarto-table-cell-role="th">liveness</th>
+<th data-quarto-table-cell-role="th">valence</th>
+<th data-quarto-table-cell-role="th">tempo</th>
+<th data-quarto-table-cell-role="th">duration_ms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>66</td>
+<td>2019-06-14</td>
+<td>pop</td>
+<td>dance pop</td>
+<td>0.748</td>
+<td>0.916</td>
+<td>6</td>
+<td>-2.634</td>
+<td>1</td>
+<td>0.0583</td>
+<td>0.1020</td>
+<td>0.000000</td>
+<td>0.0653</td>
+<td>0.518</td>
+<td>122.036</td>
+<td>194754</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>67</td>
+<td>2019-12-13</td>
+<td>pop</td>
+<td>dance pop</td>
+<td>0.726</td>
+<td>0.815</td>
+<td>11</td>
+<td>-4.969</td>
+<td>1</td>
+<td>0.0373</td>
+<td>0.0724</td>
+<td>0.004210</td>
+<td>0.3570</td>
+<td>0.693</td>
+<td>99.972</td>
+<td>162600</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>70</td>
+<td>2019-07-05</td>
+<td>pop</td>
+<td>dance pop</td>
+<td>0.675</td>
+<td>0.931</td>
+<td>1</td>
+<td>-3.432</td>
+<td>0</td>
+<td>0.0742</td>
+<td>0.0794</td>
+<td>0.000023</td>
+<td>0.1100</td>
+<td>0.613</td>
+<td>124.008</td>
+<td>176616</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>60</td>
+<td>2019-07-19</td>
+<td>pop</td>
+<td>dance pop</td>
+<td>0.718</td>
+<td>0.930</td>
+<td>7</td>
+<td>-3.778</td>
+<td>1</td>
+<td>0.1020</td>
+<td>0.0287</td>
+<td>0.000009</td>
+<td>0.2040</td>
+<td>0.277</td>
+<td>121.956</td>
+<td>169093</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>69</td>
+<td>2019-03-05</td>
+<td>pop</td>
+<td>dance pop</td>
+<td>0.650</td>
+<td>0.833</td>
+<td>1</td>
+<td>-4.672</td>
+<td>1</td>
+<td>0.0359</td>
+<td>0.0803</td>
+<td>0.000000</td>
+<td>0.0833</td>
+<td>0.725</td>
+<td>123.976</td>
+<td>189052</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="date-data" class="level3">
+<h3 class="anchored" data-anchor-id="date-data">Date Data</h3>
+<p>In this post we’ll also drop date data we’d like to focus on music features itself</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop([<span class="st">"track_album_release_date"</span>], axis<span class="op">=</span><span class="st">"columns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="gener" class="level3">
+<h3 class="anchored" data-anchor-id="gener">Gener</h3>
+<p>We’ll also drop the genre info to ensure that we have a clustoring based off undeclared labels to make it truely unsupervised learning</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>genres <span class="op">=</span> songs[[<span class="st">"playlist_genre"</span>, <span class="st">"playlist_subgenre"</span>]]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop([<span class="st">"playlist_genre"</span>, <span class="st">"playlist_subgenre"</span>], axis<span class="op">=</span><span class="st">"columns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="missing-values">Missing values</h2>
+<p>Let’s check if there are any missing values in our dataset</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>songs.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="69">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>We don’t have any missing values, which is good. Let’s revisit what’s remaining</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="70">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">track_popularity</th>
+<th data-quarto-table-cell-role="th">danceability</th>
+<th data-quarto-table-cell-role="th">energy</th>
+<th data-quarto-table-cell-role="th">key</th>
+<th data-quarto-table-cell-role="th">loudness</th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">speechiness</th>
+<th data-quarto-table-cell-role="th">acousticness</th>
+<th data-quarto-table-cell-role="th">instrumentalness</th>
+<th data-quarto-table-cell-role="th">liveness</th>
+<th data-quarto-table-cell-role="th">valence</th>
+<th data-quarto-table-cell-role="th">tempo</th>
+<th data-quarto-table-cell-role="th">duration_ms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>66</td>
+<td>0.748</td>
+<td>0.916</td>
+<td>6</td>
+<td>-2.634</td>
+<td>1</td>
+<td>0.0583</td>
+<td>0.1020</td>
+<td>0.000000</td>
+<td>0.0653</td>
+<td>0.518</td>
+<td>122.036</td>
+<td>194754</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>67</td>
+<td>0.726</td>
+<td>0.815</td>
+<td>11</td>
+<td>-4.969</td>
+<td>1</td>
+<td>0.0373</td>
+<td>0.0724</td>
+<td>0.004210</td>
+<td>0.3570</td>
+<td>0.693</td>
+<td>99.972</td>
+<td>162600</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>70</td>
+<td>0.675</td>
+<td>0.931</td>
+<td>1</td>
+<td>-3.432</td>
+<td>0</td>
+<td>0.0742</td>
+<td>0.0794</td>
+<td>0.000023</td>
+<td>0.1100</td>
+<td>0.613</td>
+<td>124.008</td>
+<td>176616</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>60</td>
+<td>0.718</td>
+<td>0.930</td>
+<td>7</td>
+<td>-3.778</td>
+<td>1</td>
+<td>0.1020</td>
+<td>0.0287</td>
+<td>0.000009</td>
+<td>0.2040</td>
+<td>0.277</td>
+<td>121.956</td>
+<td>169093</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>69</td>
+<td>0.650</td>
+<td>0.833</td>
+<td>1</td>
+<td>-4.672</td>
+<td>1</td>
+<td>0.0359</td>
+<td>0.0803</td>
+<td>0.000000</td>
+<td>0.0833</td>
+<td>0.725</td>
+<td>123.976</td>
+<td>189052</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="visualization" class="level2">
+<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
+<p>Let’s visualize the data and get a better understanding of the values</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sns.pairplot(songs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-9-output-1.png" width="3060" height="3060"></p>
+</div>
+</div>
+<p>This plots can say a lot about the data, e.g., songs in the lower end of danceability spectrum are less likely to be popular. Aside from that, most of the features seem to have a fairly normal distrubtion on the data. ## Normalization Let’s scales data to a similar range to esnure consistancey in impact of the features.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>songs_normalized <span class="op">=</span> preprocessing.normalize(songs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="clusturing" class="level1">
+<h1>Clusturing</h1>
+<p>Let us now start clustering the data using KMeans. K-means clustering is an unsupervised machine learning algorithm used for partitioning a dataset into K distinct, non-overlapping clusters. The primary objective of K-means is to group data points based on similarities in their features, where each cluster is represented by its centroid, a point at the center of the cluster.</p>
+<p>Here’s how the K-means algorithm typically works:</p>
+<ol type="1">
+<li><strong>Initialization</strong>: Start by randomly selecting K data points from the dataset as initial cluster centroids.</li>
+<li><strong>Assignment</strong>: Assign each data point to the nearest centroid, forming K clusters based on proximity or similarity to centroids. This is often done using a distance metric, such as Euclidean distance.</li>
+<li><strong>Update Centroids</strong>: Recalculate the centroids of the K clusters by taking the mean of all data points assigned to each centroid.</li>
+<li><strong>Reassignment</strong>: Reassign data points to the nearest centroid based on the updated centroids.</li>
+<li><strong>Repeat</strong>: Iteratively update centroids and reassign data points until convergence criteria are met. Convergence occurs when centroids no longer change significantly or after a specified number of iterations.</li>
+</ol>
+<p>The algorithm aims to minimize the within-cluster sum of squares (WCSS) or inertia, which represents the total squared distance of each point within its respective cluster to its centroid. K-means aims to optimize this objective function to create compact, well-separated clusters.</p>
+<p>Key points about K-means clustering:</p>
+<ul>
+<li>K-means is sensitive to the initial placement of centroids, which can lead to different outcomes.</li>
+<li>It works well when clusters are well-separated and have a roughly spherical shape.</li>
+<li>The algorithm may struggle with non-linear clusters, varying cluster sizes, or clusters with irregular shapes.</li>
+<li>Determining the optimal number of clusters (K) is crucial but not always straightforward. Techniques like the elbow method or silhouette score can help in selecting an appropriate K value. K-means clustering finds applications in various fields, including customer segmentation, image segmentation, anomaly detection, and recommendation systems, among others, where identifying natural groupings or patterns within data is essential.</li>
+</ul>
+<p>We can use the Elbow method to have an indication of clusters for our data. It consists in the interpretation of a line plot with an elbow shape. The number of clusters is where the elbow bends. The x axis of the plot is the number of clusters and the y axis is the Within Clusters Sum of Squares (WCSS) for each number of clusters:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ks <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">14</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>wcss <span class="op">=</span> []</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> ks:</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>i, init<span class="op">=</span><span class="st">"k-means++"</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    kmeans.fit(songs_normalized)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    wcss.append(kmeans.inertia_)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>lp <span class="op">=</span> sns.lineplot(x<span class="op">=</span>ks, y<span class="op">=</span>wcss)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>lp.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(wcss)), labels<span class="op">=</span>ks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-11-output-1.png" width="606" height="415"></p>
+</div>
+</div>
+<p>It seems we’ve three clustors</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc<span class="op">=</span>{<span class="st">"figure.figsize"</span>: (<span class="fl">11.7</span>, <span class="fl">8.27</span>)})</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, init<span class="op">=</span><span class="st">"k-means++"</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>kmeans.fit(songs_normalized)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fig.subplots_adjust(hspace<span class="op">=</span><span class="fl">0.4</span>, wspace<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> <span class="bu">len</span>(songs.columns)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>fig_count <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(cols <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if i == j:</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     break</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">4</span>, <span class="dv">4</span>, fig_count)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    fig_count <span class="op">=</span> fig_count <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>songs,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>songs.columns[j <span class="op">+</span> <span class="dv">1</span>],</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">"track_popularity"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        hue<span class="op">=</span>kmeans.labels_,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>ax,</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-12-output-1.png" width="950" height="513"></p>
+</div>
+</div>
+<p>From this figure we see song duration of the song in milliseconds has a clear impact on the clustring categories.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -385,4 +1007,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/yosephberhanu/ml-blog/blob/main/posts/clustering.qmd" class="toc-action">View source</a></p></div></div></div></div></footer></body></html>
+</body></html>
