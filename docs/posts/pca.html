@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Yoseph Berhanu">
-<meta name="dcterms.date" content="2023-12-06">
+<meta name="dcterms.date" content="2023-12-07">
 <meta name="description" content="What’s PCA, and how to calculate it">
 
 <title>Yoseph’s ML Blog - Principal Component Analysis</title>
@@ -197,7 +197,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 6, 2023</p>
+      <p class="date">December 7, 2023</p>
     </div>
   </div>
   
@@ -461,7 +461,7 @@ dtype: float64</code></pre>
 <section id="step-1.-standardization" class="level3">
 <h3 class="anchored" data-anchor-id="step-1.-standardization">Step 1. Standardization</h3>
 <p>PCA is sensitive to variance, meaning if features different range in values the PCA calculation will be dominated by features with a larger range. In our dataset, we have features that represent a percentage value (hence the potential values range from 0 to 100, but the actual maximum value in the dataset is way below 100). We also have other features that have a more inconsistent range. For example, the <code>ins_premium</code> has a range of <code>659.560</code> while <code>speading</code> has a range of <code>7.658</code>. As a result, the PCA analysis will be greatly (and incorrectly) influenced by a change in <code>ins_premium</code> value.</p>
-<p>To address this issue we perform standardization before PCA, that is we bring values of all features to a standard range. The one common way to standardize any data is the following formula.</p>
+<p>To address this issue, we perform standardization before PCA, that is we bring values of all features to a standard range. The one common way to standardize any data is the following formula.</p>
 <p><span class="math display">\[
 z = \frac{v - \mu}{\sigma}
 \]</span> Where <span class="math inline">\(z\)</span> is the standardized value, <span class="math inline">\(v\)</span> is the original value, <span class="math inline">\(\mu\)</span> stands for mean and <span class="math inline">\(\sigma\)</span> is the standard deviation</p>
@@ -562,7 +562,7 @@ z = \frac{v - \mu}{\sigma}
 </section>
 <section id="step-2.-covariance-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="step-2.-covariance-matrix">Step 2. Covariance Matrix</h3>
-<p>Covariance Matrix To get a sense of how the values of the input dataset vary from the mean to each other we compute the covariance matrix. The covariance matrix is a <span class="math inline">\(m × m\)</span> symmetric matrix (where m is the number of features we’ve in our input dataset). Features might be highly correlated and through computing the covariance matrix we can identify this relationship.</p>
+<p>Covariance Matrix To get a sense of how the values of the input dataset vary from the mean to each other we compute the covariance matrix. The covariance matrix is a <span class="math inline">\(m × m\)</span> symmetric matrix (where m is the number of features, we’ve in our input dataset). Features might be highly correlated and through computing the covariance matrix we can identify this relationship.</p>
 <p>For example, a covariance matrix of an input dataset with 4 features <span class="math inline">\((f_1,f_2,f_3,f_4)\)</span> will be a 4x4 matrix of the following form</p>
 <p><span class="math display">\[
 Covariance Matrix = \begin{bmatrix}
@@ -643,7 +643,7 @@ cov(f_x,f_y) = \dfrac{\sum(x_i-\mu_x) (y_i-\mu_y)}{n}
 </section>
 <section id="step-4.-feature-vector" class="level3">
 <h3 class="anchored" data-anchor-id="step-4.-feature-vector">Step 4. Feature Vector</h3>
-<p>Once sorted, we can select the subset of the Eigenvalue as per our requirement. In this case, since we are interested in the two principal components we take the first two values (i.e.&nbsp;n_components = 2). This forms our feature vector which is a matrix that has as columns the eigenvectors of the components that we decide to keep. By only keeping a subset of the Eigenvectors we are reducing the number of features hence the notion of dimensionality reduction.</p>
+<p>Once sorted, we can select the subset of the Eigenvalue as per our requirement. In this case, since we are interested in the two principal components, we take the first two values (i.e.&nbsp;n_components = 2). This forms our feature vector which is a matrix that has as columns the eigenvectors of the components that we decide to keep. By only keeping a subset of the Eigenvectors we are reducing the number of features hence the notion of dimensionality reduction.</p>
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>n_components <span class="op">=</span> <span class="dv">2</span> </span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>feature_vector <span class="op">=</span> sorted_eigenvectors[:,<span class="dv">0</span>:n_components]</span>

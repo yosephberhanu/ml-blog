@@ -150,11 +150,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#identifiers" id="toc-identifiers" class="nav-link" data-scroll-target="#identifiers">identifiers</a></li>
   <li><a href="#date-data" id="toc-date-data" class="nav-link" data-scroll-target="#date-data">Date Data</a></li>
-  <li><a href="#gener" id="toc-gener" class="nav-link" data-scroll-target="#gener">Gener</a></li>
+  <li><a href="#genre" id="toc-genre" class="nav-link" data-scroll-target="#genre">Genre</a></li>
   </ul></li>
   <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing values</a></li>
   <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
-  <li><a href="#clusturing" id="toc-clusturing" class="nav-link" data-scroll-target="#clusturing">Clusturing</a></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/yosephberhanu/ml-blog/blob/main/posts/clustering.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>Banner Image Credit: <a href="https://www.rochester.edu/newscenter/global-grouping-theory-math-strategies-students-529492/">University of Rochester</a></p>
-<p>In this post I’ll explore the K Means algorithm to cluster <a href="../data/spotify_songs.csv">data</a> fetched from spotify API. This data containes the following attributes</p>
+<p>In this post I’ll explore the K Means algorithm to cluster <a href="../data/spotify_songs.csv">data</a> fetched from Spotify API. This data contains the following attributes</p>
 <ul>
 <li><strong>Track_id</strong>: Unique identifier for a song</li>
 <li><strong>Track_name</strong>: Name of the song</li>
@@ -222,7 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="task" class="level2">
 <h2 class="anchored" data-anchor-id="task">Task</h2>
-<p>The task for this blog post is to train a couple of regression models and predict how pouplar a song is given the other features about the song.<br>
+<p>The task for this blog post is to train a couple of regression models and predict how popular a song is given the other features about the song.<br>
 # Preprocessing ## Imports</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -238,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> pd.read_csv(<span class="st">"../data/spotify_songs.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="65">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -402,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="remove-features">Remove Features</h2>
 <section id="identifiers" class="level3">
 <h3 class="anchored" data-anchor-id="identifiers">identifiers</h3>
-<p>Features like track_id, track_name, track_artist, track_album_id, track_album_name, playlist_id,playlist_name will have little contribution to our model as they are unique identifiers. Hence we’ll remove them from the data.</p>
+<p>Features like track_id, track_name, track_artist, track_album_id, track_album_name, playlist_id,playlist_name will have little contribution to our model as they are unique identifiers. Hence, we’ll remove them from the data.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [</span>
@@ -417,7 +417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="st">"columns"</span>,</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="66">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -553,9 +553,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop([<span class="st">"track_album_release_date"</span>], axis<span class="op">=</span><span class="st">"columns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="gener" class="level3">
-<h3 class="anchored" data-anchor-id="gener">Gener</h3>
-<p>We’ll also drop the genre info to ensure that we have a clustoring based off undeclared labels to make it truely unsupervised learning</p>
+<section id="genre" class="level3">
+<h3 class="anchored" data-anchor-id="genre">Genre</h3>
+<p>We’ll also drop the genre info to ensure that we have a clustering based off undeclared labels to make it truly unsupervised learning</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>genres <span class="op">=</span> songs[[<span class="st">"playlist_genre"</span>, <span class="st">"playlist_subgenre"</span>]]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop([<span class="st">"playlist_genre"</span>, <span class="st">"playlist_subgenre"</span>], axis<span class="op">=</span><span class="st">"columns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -567,14 +567,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s check if there are any missing values in our dataset</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>songs.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="69">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>False</code></pre>
 </div>
 </div>
 <p>We don’t have any missing values, which is good. Let’s revisit what’s remaining</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>songs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="70">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -691,16 +691,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sns.pairplot(songs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="clustering_files/figure-html/cell-9-output-1.png" width="3060" height="3060"></p>
+<p><img src="clustering_files/figure-html/cell-9-output-1.png" width="3062" height="3061"></p>
 </div>
 </div>
-<p>This plots can say a lot about the data, e.g., songs in the lower end of danceability spectrum are less likely to be popular. Aside from that, most of the features seem to have a fairly normal distrubtion on the data. ## Normalization Let’s scales data to a similar range to esnure consistancey in impact of the features.</p>
+<p>This plots can say a lot about the data, e.g., songs in the lower end of danceability spectrum are less likely to be popular. Aside from that, most of the features seem to have a fairly normal distribution on the data. ## Normalization Let’s scales data to a similar range to ensure consistency in impact of the features.</p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>songs_normalized <span class="op">=</span> preprocessing.normalize(songs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="clusturing" class="level1">
-<h1>Clusturing</h1>
+<section id="clustering" class="level1">
+<h1>Clustering</h1>
 <p>Let us now start clustering the data using KMeans. K-means clustering is an unsupervised machine learning algorithm used for partitioning a dataset into K distinct, non-overlapping clusters. The primary objective of K-means is to group data points based on similarities in their features, where each cluster is represented by its centroid, a point at the center of the cluster.</p>
 <p>Here’s how the K-means algorithm typically works:</p>
 <ol type="1">
@@ -732,7 +732,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>lp <span class="op">=</span> sns.lineplot(x<span class="op">=</span>ks, y<span class="op">=</span>wcss)</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>lp.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(wcss)), labels<span class="op">=</span>ks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="clustering_files/figure-html/cell-11-output-1.png" width="606" height="415"></p>
+<p><img src="clustering_files/figure-html/cell-11-output-1.png" width="605" height="411"></p>
 </div>
 </div>
 <p>It seems we’ve three clustors</p>
@@ -764,7 +764,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="clustering_files/figure-html/cell-12-output-1.png" width="950" height="513"></p>
 </div>
 </div>
-<p>From this figure we see song duration of the song in milliseconds has a clear impact on the clustring categories.</p>
+<p>From this figure we see song duration of the song in milliseconds has a clear impact on the clustering categories.</p>
 
 
 </section>

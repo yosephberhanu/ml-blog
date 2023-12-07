@@ -21,7 +21,7 @@ execute:
 # Introduction
 
 ## Dataset
-In this blog post I'll try to explore linear and nonlinear regression ML algorithms to predict popularity of a song based on a data set of almost 30,000 songs from  Spotify API collected using the [`spotifyr` package](https://www.rcharlie.com/spotifyr/). The package and orgnial data set can be found [here](https://www.kaggle.com/datasets/joebeachcapital/30000-spotify-songs/). 
+In this blog post I'll try to explore linear and nonlinear regression ML algorithms to predict popularity of a song based on a data set of almost 30,000 songs from Spotify API collected using the [`spotifyr` package](https://www.rcharlie.com/spotifyr/). The package and original data set can be found [here](https://www.kaggle.com/datasets/joebeachcapital/30000-spotify-songs/). 
 
 ### Description of dataset
 This dataset encompasses various attributes providing diverse information about songs, artists, popularity, musical features, and playlist characteristics, making it suitable for music-related analyses or applications in data analysis and machine learning.
@@ -51,7 +51,7 @@ This dataset encompasses various attributes providing diverse information about 
 * __Duration_ms__: Duration of the song in milliseconds
 
 ## Task
-The task for this blog post is to train a couple of regression models and predict how pouplar a song is given the other features about the song.  
+The task for this blog post is to train a couple of regression models and predict how popular a song is given the other features about the song.  
 # Preprocessing
 ## Imports
 ```{python}
@@ -74,7 +74,6 @@ from sklearn.neighbors import RadiusNeighborsRegressor
 from sklearn import svm
 
 from sklearn.metrics import mean_squared_error
-
 
 ```
 
@@ -101,7 +100,7 @@ songs = songs.drop(
 songs.head()
 ```
 ## Date Data
-To capture seasonal popularity I'll split the date value into three columns with year, month and day values. We first convert the string representation of track_album_release_date to date datatype and takeout the individual values separately.
+To capture seasonal popularity, I'll split the date value into three columns with year, month and day values. We first convert the string representation of track_album_release_date to date datatype and takeout the individual values separately.
 ```{python}
 songs["track_album_release_date"] = pd.to_datetime(
     songs["track_album_release_date"], format="%Y-%m-%d", errors="coerce"
@@ -122,7 +121,7 @@ It seems we've some
 ```{python}
 songs.isnull().sum()
 ```
-Given the missing date values are arround 17% our data simply dropping the rows does not yeild an ideal outcome. Hence, let's to fill the missing columns with the most common value in that feature
+Given the missing date values are around 17% our data simply dropping the rows does not yield an ideal outcome. Hence, let's to fill the missing columns with the most common value in that feature
 ```{python}
 songs["release_year"].fillna(
     songs["release_year"].value_counts().index[0], inplace=True
@@ -144,7 +143,7 @@ Let's visualize the data and get a better understanding of the values
 sns.countplot(songs, x="playlist_subgenre", hue="playlist_genre")
 plt.xticks(rotation=90)
 ```
-From this we can see playlist_subgenre is full contained in playlist_genre hence we can remote the playlist_genre as the playlist_subgenre has more fine grained information 
+From this we can see playlist_subgenre is full contained in playlist_genre hence we can remote the playlist_genre as the playlist_subgenre has more fine-grained information 
 ```{python}
 songs = songs.drop("playlist_genre", axis="columns")
 ```
@@ -175,11 +174,10 @@ print("Top 5 correlation values are")
 for i, v in cor_values[:top_n].items():
     print("{} - {} ".format(i, v))
 ```
-As expected 'energy', 'loudness' are correlated to a degree but none of these correlation values are significantly high enought to warrant removal befor the training so we keep all our features.
-
+As expected 'energy', 'loudness' are correlated to a degree but none of these correlation values are significantly high enough to warrant removal before the training so we keep all our features.
 
 ## Target and Data
-Let's now split features into X and Y with the later being our target for prediction
+Let's now split features into X and Y with the latter being our target for prediction
 ```{python}
 
 y = songs["track_popularity"].to_numpy()
@@ -203,7 +201,7 @@ print("Test y Shape: {}".format(y_test.shape))
 ```
 # Training and Optimization
 ## Regression models
-We will try to train on multiple algorithms and perform hyperparamter tuining on each to find the best performing model
+We will try to train on multiple algorithms and perform hyperparameter tuning on each to find the best performing model
 ``` {python}
 models = {
     "ExtraTreesRegressor": {
@@ -264,7 +262,7 @@ models = {
     },
 }
 ```
-Now let's peform the training and hyperparamter tuining.
+Now let's perform the training and hyperparameter tuning.
 Start by preparing a variable to store the best model and it's param values in 
 ```{python}
 best_model, best_params, best_performance = None, None, float("inf")
@@ -303,7 +301,7 @@ print(f"Best Parameters: {best_params}")
 
 # Conclusion
 
-I found the best berformance in terms of mean absolut error comes from AdaBoostRegressor with the follwoing details
+I found the best performance in terms of mean absolute error comes from AdaBoostRegressor with the following details
 
 ### Best Model
 Best Model: AdaBoostRegressor(n_estimators=75)
@@ -322,3 +320,4 @@ Lowest Mean Squared Error: 591.7667123496269
 * Model: RadiusNeighborsRegressor(leaf_size=40, radius=0.5, weights='distance')
 * Parameters: {'weights': 'distance', 'radius': 0.5, 'leaf_size': 40}
 * Mean Squared Error: 615.0418760469012
+

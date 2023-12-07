@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Introduction</h1>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>In this blog post I’ll try to explore linear and nonlinear regression ML algorithms to predict popularity of a song based on a data set of almost 30,000 songs from Spotify API collected using the <a href="https://www.rcharlie.com/spotifyr/"><code>spotifyr</code> package</a>. The package and orgnial data set can be found <a href="https://www.kaggle.com/datasets/joebeachcapital/30000-spotify-songs/">here</a>.</p>
+<p>In this blog post I’ll try to explore linear and nonlinear regression ML algorithms to predict popularity of a song based on a data set of almost 30,000 songs from Spotify API collected using the <a href="https://www.rcharlie.com/spotifyr/"><code>spotifyr</code> package</a>. The package and original data set can be found <a href="https://www.kaggle.com/datasets/joebeachcapital/30000-spotify-songs/">here</a>.</p>
 <section id="description-of-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="description-of-dataset">Description of dataset</h3>
 <p>This dataset encompasses various attributes providing diverse information about songs, artists, popularity, musical features, and playlist characteristics, making it suitable for music-related analyses or applications in data analysis and machine learning.</p>
@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="task" class="level2">
 <h2 class="anchored" data-anchor-id="task">Task</h2>
-<p>The task for this blog post is to train a couple of regression models and predict how pouplar a song is given the other features about the song.<br>
+<p>The task for this blog post is to train a couple of regression models and predict how popular a song is given the other features about the song.<br>
 # Preprocessing ## Imports</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -588,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="date-data" class="level2">
 <h2 class="anchored" data-anchor-id="date-data">Date Data</h2>
-<p>To capture seasonal popularity I’ll split the date value into three columns with year, month and day values. We first convert the string representation of track_album_release_date to date datatype and takeout the individual values separately.</p>
+<p>To capture seasonal popularity, I’ll split the date value into three columns with year, month and day values. We first convert the string representation of track_album_release_date to date datatype and takeout the individual values separately.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>songs[<span class="st">"track_album_release_date"</span>] <span class="op">=</span> pd.to_datetime(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    songs[<span class="st">"track_album_release_date"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>, errors<span class="op">=</span><span class="st">"coerce"</span></span>
@@ -634,7 +634,7 @@ release_day          1886
 dtype: int64</code></pre>
 </div>
 </div>
-<p>Given the missing date values are arround 17% our data simply dropping the rows does not yeild an ideal outcome. Hence, let’s to fill the missing columns with the most common value in that feature</p>
+<p>Given the missing date values are around 17% our data simply dropping the rows does not yield an ideal outcome. Hence, let’s to fill the missing columns with the most common value in that feature</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>songs[<span class="st">"release_year"</span>].fillna(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    songs[<span class="st">"release_year"</span>].value_counts().index[<span class="dv">0</span>], inplace<span class="op">=</span><span class="va">True</span></span>
@@ -957,7 +957,7 @@ dtype: int64</code></pre>
 <p><img src="regression_files/figure-html/cell-10-output-2.png" width="602" height="589"></p>
 </div>
 </div>
-<p>From this we can see playlist_subgenre is full contained in playlist_genre hence we can remote the playlist_genre as the playlist_subgenre has more fine grained information</p>
+<p>From this we can see playlist_subgenre is full contained in playlist_genre hence we can remote the playlist_genre as the playlist_subgenre has more fine-grained information</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.drop(<span class="st">"playlist_genre"</span>, axis<span class="op">=</span><span class="st">"columns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1303,12 +1303,12 @@ dtype: int64</code></pre>
 ('release_month', 'release_day') - 0.3080926045288983 </code></pre>
 </div>
 </div>
-<p>As expected ‘energy’, ‘loudness’ are correlated to a degree but none of these correlation values are significantly high enought to warrant removal befor the training so we keep all our features.</p>
+<p>As expected ‘energy’, ‘loudness’ are correlated to a degree but none of these correlation values are significantly high enough to warrant removal before the training so we keep all our features.</p>
 </section>
 </section>
 <section id="target-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="target-and-data">Target and Data</h2>
-<p>Let’s now split features into X and Y with the later being our target for prediction</p>
+<p>Let’s now split features into X and Y with the latter being our target for prediction</p>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> songs[<span class="st">"track_popularity"</span>].to_numpy()</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> songs.drop(<span class="st">"track_popularity"</span>, axis<span class="op">=</span><span class="st">"columns"</span>).to_numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1343,7 +1343,7 @@ Test y Shape: (6567,)</code></pre>
 <h1>Training and Optimization</h1>
 <section id="regression-models" class="level2">
 <h2 class="anchored" data-anchor-id="regression-models">Regression models</h2>
-<p>We will try to train on multiple algorithms and perform hyperparamter tuining on each to find the best performing model</p>
+<p>We will try to train on multiple algorithms and perform hyperparameter tuning on each to find the best performing model</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ExtraTreesRegressor"</span>: {</span>
@@ -1404,7 +1404,7 @@ Test y Shape: (6567,)</code></pre>
 <span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>    },</span>
 <span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now let’s peform the training and hyperparamter tuining. Start by preparing a variable to store the best model and it’s param values in</p>
+<p>Now let’s perform the training and hyperparameter tuning. Start by preparing a variable to store the best model and it’s param values in</p>
 <div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>best_model, best_params, best_performance <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>, <span class="bu">float</span>(<span class="st">"inf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1440,7 +1440,7 @@ Test y Shape: (6567,)</code></pre>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
-<p>I found the best berformance in terms of mean absolut error comes from AdaBoostRegressor with the follwoing details</p>
+<p>I found the best performance in terms of mean absolute error comes from AdaBoostRegressor with the following details</p>
 <section id="best-model" class="level3">
 <h3 class="anchored" data-anchor-id="best-model">Best Model</h3>
 <p>Best Model: AdaBoostRegressor(n_estimators=75)</p>

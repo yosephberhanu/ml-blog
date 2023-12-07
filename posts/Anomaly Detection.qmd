@@ -20,7 +20,7 @@ execute:
 Banner Image Credit [Evidently AI](https://www.evidentlyai.com)
 
 # Intro
-In this blog post I'll demonstrate a category of application for unsupervised machine learning - Anomaly Detection. Also know as Outlier analysis, it refers to the process of identifying patterns or instances within a dataset that deviate significantly from the norm or expected behavior. These anomalies can represent events, observations, or data points that differ from the majority of the dataset due to various reasons like errors, unexpected occurrences, or genuine novel behavior.
+In this blog post I'll demonstrate a category of application for unsupervised machine learning - Anomaly Detection. Also known as Outlier analysis, it refers to the process of identifying patterns or instances within a dataset that deviate significantly from the norm or expected behavior. These anomalies can represent events, observations, or data points that differ from the majority of the dataset due to various reasons like errors, unexpected occurrences, or genuine novel behavior.
 
 The primary goal of anomaly detection is to distinguish these irregular patterns or outliers from the regular or "normal" data points. This process is crucial across multiple domains and applications, including fraud detection in finance, network security, health monitoring, industrial systems, and more.
 
@@ -38,10 +38,10 @@ DBSCAN focuses on the density of data points rather than assuming a specific num
 
 DBSCAN starts by selecting a random unvisited point and examines its neighborhood. If the point is a core point, it forms a cluster and expands it by adding neighboring points. If the point is a border point, it's added to an existing cluster. If neither, it's labeled as noise.
 
-DBSCAN can identify clusters of varying shapes and handle varying densities within clusters effectively. It is robust in detecting clusters of arbitrary shapes, can handle noise/outliers, and doesn’t require specifying the number of clusters beforehand. However setting suitable values for ε and MinPts can impact the performance of DBSCAN. Choosing appropriate parameters often requires domain knowledge or experimentation. 
+DBSCAN can identify clusters of varying shapes and handle varying densities within clusters effectively. It is robust in detecting clusters of arbitrary shapes, can handle noise/outliers, and doesn’t require specifying the number of clusters beforehand. However, setting suitable values for ε and MinPts can impact the performance of DBSCAN. Choosing appropriate parameters often requires domain knowledge or experimentation. 
 
 # Data
-For the purpose of demonstration we will be using a dataset that comes bundled with the seaborn package in python. Among the handfull of options, I've chosen to use the titanic dataset. Let's get started
+For the purpose of demonstration, we will be using a dataset that comes bundled with the seaborn package in python. Among the handful of options, I've chosen to use the titanic dataset. Let's get started
 
 ## Imports
 ```{python}
@@ -104,4 +104,6 @@ sns.scatterplot(titanic_age_fare, x="fare", y="age", c=dbscan.labels_)
 print(titanic_age_fare[dbscan.labels_ == -1])
 
 ```
-Based on this visualization and the labels created we can see DBSCAN was not able to detect any outliers with the given features. This holds even after expermenting with multiple values of epsillon for DBSCAN.
+Based on this visualization and the labels created we can see DBSCAN was not able to detect any outliers with the given features. This holds even after experimenting with multiple values of epsilon and min_samples for DBSCAN.
+
+

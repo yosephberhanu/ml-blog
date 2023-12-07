@@ -18,8 +18,7 @@ execute:
 ---
 Banner Image Credit: [University of Rochester](https://www.rochester.edu/newscenter/global-grouping-theory-math-strategies-students-529492/)
 
-
-In this post I'll explore the K Means algorithm to cluster [data](../data/spotify_songs.csv) fetched from spotify API. This data containes the following attributes
+In this post I'll explore the K Means algorithm to cluster [data](../data/spotify_songs.csv) fetched from Spotify API. This data contains the following attributes
 
 * __Track_id__: Unique identifier for a song
 * __Track_name__: Name of the song
@@ -46,7 +45,7 @@ In this post I'll explore the K Means algorithm to cluster [data](../data/spotif
 * __Duration_ms__: Duration of the song in milliseconds
 
 ## Task
-The task for this blog post is to train a couple of regression models and predict how pouplar a song is given the other features about the song.  
+The task for this blog post is to train a couple of regression models and predict how popular a song is given the other features about the song.  
 # Preprocessing
 ## Imports
 ```{python}
@@ -66,7 +65,7 @@ songs.head()
 ```
 ## Remove Features
 ### identifiers
-Features like track_id, track_name, track_artist, track_album_id, track_album_name, playlist_id,playlist_name will have little contribution to our model as they are unique identifiers. Hence we'll remove them from the data.
+Features like track_id, track_name, track_artist, track_album_id, track_album_name, playlist_id,playlist_name will have little contribution to our model as they are unique identifiers. Hence, we'll remove them from the data.
 ```{python}
 songs = songs.drop(
     [
@@ -88,8 +87,8 @@ In this post we'll also drop date data we'd like to focus on music features itse
 songs = songs.drop(["track_album_release_date"], axis="columns")
 ```
 
-### Gener
-We'll also drop the genre info to ensure that we have a clustoring based off undeclared labels to make it truely unsupervised learning 
+### Genre
+We'll also drop the genre info to ensure that we have a clustering based off undeclared labels to make it truly unsupervised learning 
 ```{python}
 genres = songs[["playlist_genre", "playlist_subgenre"]]
 songs = songs.drop(["playlist_genre", "playlist_subgenre"], axis="columns")
@@ -109,15 +108,15 @@ Let's visualize the data and get a better understanding of the values
 ```{python}
 sns.pairplot(songs)
 ```
-This plots can say a lot about the data, e.g., songs in the lower end of danceability spectrum are less likely to be popular. Aside from that, most of the features seem to have a fairly normal distrubtion on the data.
+This plots can say a lot about the data, e.g., songs in the lower end of danceability spectrum are less likely to be popular. Aside from that, most of the features seem to have a fairly normal distribution on the data.
 ## Normalization
-Let's scales data to a similar range to esnure consistancey in impact of the features.
+Let's scales data to a similar range to ensure consistency in impact of the features.
 
 ```{python}
 songs_normalized = preprocessing.normalize(songs)
 ```
 
-# Clusturing 
+# Clustering 
 Let us now start clustering the data using KMeans. 
 K-means clustering is an unsupervised machine learning algorithm used for partitioning a dataset into K distinct, non-overlapping clusters. The primary objective of K-means is to group data points based on similarities in their features, where each cluster is represented by its centroid, a point at the center of the cluster.
 
@@ -182,4 +181,4 @@ for j in range(cols - 1):
 plt.show()
 
 ```
-From this figure we see song duration of the song in milliseconds has a clear impact on the clustring categories.
+From this figure we see song duration of the song in milliseconds has a clear impact on the clustering categories.

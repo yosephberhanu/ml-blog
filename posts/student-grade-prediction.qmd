@@ -39,7 +39,6 @@ import seaborn as sns
 import warnings
 from sklearn import preprocessing
 
-
 from sklearn.linear_model import (
     LogisticRegression,
     SGDClassifier,
@@ -92,7 +91,6 @@ viewed, Course user report viewed, Outline report viewed)
 * Status3: forum related (Post updated, Post created, Discussion created, Some content has been posted, Discussion viewed)
 * 9 grades (Week2_Quiz1, Week3_MP1, ... Week7_MP3)
 * 36 logs (Week1_Stat0, Week1_Stat1, Week1_Stat2, Week1_Stat3, ... Week9_Stat0, Week9_Stat1, Week9_Stat2, Week9_Stat3)
-
 
 ### 2.2 Load the data
 
@@ -162,7 +160,6 @@ sns.heatmap(df.isnull())
 
 There are no missing values for any of the students, perhaps missing a quiz or an assignment has been equated to a grade of zero
 
-
 ```{python}
 cor = df.corr()
 sns.heatmap(cor)
@@ -227,7 +224,7 @@ print("Test y Shape: {}".format(y_test.shape))
 Given 107 records with 47 attributes I have removed 11 of the attributes during the pre-processing for the following reasons
 
 1. ID: THis is a unique identifier of each row of the data that dose not contain relevant information for our prediction task.
-2. grade_columns: These are columns that add up to give the Week8_Total column, since there is a high correlation between these and the total column I removed them in favor of Week8_Total which provides the same information in a single feature.
+2. grade_columns: These are columns that add up to give the Week8_Total column, since there is a high correlation between these and the total column, I removed them in favor of Week8_Total which provides the same information in a single feature.
 3. Week8_Total: I finally remove Week8_Total because it has a high correlation with the target feature which will make our prediction very skewed towards this feature. The is a design decision to avoid a deterministic prediction.
 
 ##### Normalization
@@ -290,7 +287,7 @@ performance
 
 ## 5. Optimization 
 
-From ourt trial run above SGDClassifier,LinearSVC and MLPClassifier seem to have the best accuracy score. Here I'll try to optimize these algorithms with different hyperparameter values to improve accuracy. We do this with the GirdSearch algorithm for hyperparameter tuning.
+From our trial run above SGDClassifier,LinearSVC and MLPClassifier seem to have the best accuracy score. Here I'll try to optimize these algorithms with different hyperparameter values to improve accuracy. We do this with the GirdSearch algorithm for hyperparameter tuning.
 
 ```{python}
 from sklearn.model_selection import GridSearchCV
@@ -348,5 +345,3 @@ print(" accuracy_score = {}".format(score))
 ```
 
 The Best performance is obtained by LinearSVC classifier which is 82%
-
-
