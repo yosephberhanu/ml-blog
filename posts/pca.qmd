@@ -249,7 +249,8 @@ principal_cars = pd.DataFrame(data=pcs, columns=["PC 1", "PC 2"])
 principal_cars.head()
 ```
 One advantage of the `scikit-learn` implementation of PCA is that it implements _Probabilistic Principal Component Analysis_ ^[“Mixtures of Probabilistic
-Principal Component Analysers" - Michael E. Tipping and Christopher M. Bishop http://www.miketipping.com/papers/met-mppca.pdf]. This enables us obtain the log maximum-likelihood of each sample. Maximum likelihood refers to the point (in mean or standard deviation) the distribution we've is going to represent most of the data we are trying to model.
+Principal Component Analysers" - Michael E. Tipping and Christopher M. Bishop http://www.miketipping.com/papers/met-mppca.pdf]. This enables us obtain the log maximum-likelihood of each sample. Maximum likelihood refers to the degree (in mean or standard deviation) the probablity distribution we've is going to represent most of the data we are trying to model. The PPCA implementation in `scikit-learn` gives as access to the log likelihood score which we can use to compare different distributions (in this case different number of principal components ) 
+ 
 ```{python}
 pca.score_samples(car_crashes_std)
 ```
