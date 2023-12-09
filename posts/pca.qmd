@@ -233,9 +233,9 @@ cars_pca = pd.DataFrame(data=car_crash_reduced, columns=["PC 1", "PC 2"])
 cars_pca.head()
 
 ```
-### Using `sklearn` package 
+### Using `scikit-learn` package 
 
-The `sklearn` package comes with an API to calculate PCA without having to follow the above steps
+The `scikit-learn` package comes with an API to calculate PCA without having to follow the above steps
 
 ```{python}
 from sklearn.decomposition import PCA
@@ -248,4 +248,45 @@ principal_cars = pd.DataFrame(data=pcs, columns=["PC 1", "PC 2"])
 
 principal_cars.head()
 ```
+One advantage of the `scikit-learn` implementation of PCA is that it implements _Probabilistic Principal Component Analysis_ ^[“Mixtures of Probabilistic
+Principal Component Analysers" - Michael E. Tipping and Christopher M. Bishop http://www.miketipping.com/papers/met-mppca.pdf]. This enables us obtain the log maximum-likelihood of each sample. Maximum likelihood refers to the point (in mean or standard deviation) the distribution we've is going to represent most of the data we are trying to model.
+```{python}
+pca.score_samples(car_crashes_std)
+```
+
+These values represent how much of the data (likelihood) our PCA components are covering. To get an average value we can use a different method from PCA as follows
+```{python}
+pca.score(car_crashes_std)
+```
+
+ The log-likelihood value for a given model can range from negative infinity to positive infinity. The actual log-likelihood value for a given model is mostly meaningless, but it's useful for comparing two or more models. We can compare our previous PCA model with one that has 3, 4, 5 components 
+
+```{python}
+pca3 = PCA(n_components=3)
+
+pcs3 = pca3.fit_transform(car_crashes_std)
+
+pca3.score(car_crashes_std)
+
+```
+
+```{python}
+pca4 = PCA(n_components=4)
+
+pcs4 = pca4.fit_transform(car_crashes_std)
+
+pca4.score(car_crashes_std)
+
+```
+
+```{python}
+pca5 = PCA(n_components=5)
+
+pcs5 = pca5.fit_transform(car_crashes_std)
+
+pca5.score(car_crashes_std)
+
+```
+
+While there is an improvement in the actual score we are increasing the number of components. Since our objective is to reduce the number of dimensions (features) and adding more components works against that aim, the improvements gained in log-likelihood score are not worth the additional dimensions we are introducing.
 
